@@ -595,7 +595,7 @@ class CF_Http
 
     # GET /v1/Account/Container
     #
-    function list_objects($cname,$limit=0,$marker=NULL,$prefix=NULL,$path=NULL)
+    function list_objects($cname,$limit=0,$marker=NULL,$prefix=NULL,$path=NULL,$delim=NULL)
     {
         if (!$cname) {
             $this->error_str = "Container name not set.";
@@ -615,9 +615,11 @@ class CF_Http
         if ($prefix) {
             $params[] = "prefix=".rawurlencode($prefix);
         }
-        if ($path) {
+        if ($path) { // b/c
             $params[] = "path=".rawurlencode($path);
-        }
+        } elseif ($delim) {
+			$params[] = "delimiter=".str_replace("%2F","/",rawurlencode($delim));
+		}
         if (!empty($params)) {
             $url_path .= "?" . implode("&", $params);
         }

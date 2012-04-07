@@ -1411,14 +1411,15 @@ class CF_Container
      * @param int $marker <i>optional</i> subset of names starting at $marker
      * @param string $prefix <i>optional</i> Objects whose names begin with $prefix
      * @param string $path <i>optional</i> only return results under "pathname"
+     * @param string $delim <i>optional</i> include virtual directories (set this to path separator)
      * @return array array of strings
      * @throws InvalidResponseException unexpected response
      */
-    function list_objects($limit=0, $marker=NULL, $prefix=NULL, $path=NULL)
+    function list_objects($limit=0, $marker=NULL, $prefix=NULL, $path=NULL, $delim=NULL)
     {
         list($status, $reason, $obj_list) =
             $this->cfs_http->list_objects($this->name, $limit,
-                $marker, $prefix, $path);
+                $marker, $prefix, $path, $delim);
         #if ($status == 401 && $this->_re_auth()) {
         #    return $this->list_objects($limit, $marker, $prefix, $path);
         #}
