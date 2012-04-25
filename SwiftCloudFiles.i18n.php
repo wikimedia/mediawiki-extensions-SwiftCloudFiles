@@ -85,6 +85,13 @@ $messages['mk'] = array(
 	'swiftcloudfiles-desc' => "Го вклучува и регистрира API ''php-cloudfiles'' (https://github.com/rackspace/php-cloudfiles), овозможувајќи му на МедијаВики да се вклопи со складишната подлога OpenStack Swift.",
 );
 
+/** Malayalam (മലയാളം)
+ * @author Praveenp
+ */
+$messages['ml'] = array(
+	'swiftcloudfiles-desc' => "ഓപ്പൺസ്റ്റാക് സ്വിഫ്റ്റ് ശേഖരണ ബാക്കെൻഡുമായി സമ്പർക്കം ചെലുത്താൻ മീഡിയവിക്കിയെ അനുവദിക്കുന്ന ''php-cloudfiles'' എ.പി.ഐ. (https://github.com/rackspace/php-cloudfiles) ഉൾപ്പെടുത്തുകയും രെജിസ്റ്റർ ചെയ്യുകയും ചെയ്യുന്നു.",
+);
+
 /** Malay (Bahasa Melayu)
  * @author Anakmalaysia
  */
