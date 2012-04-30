@@ -3,6 +3,7 @@
 $wgExtensionCredits['other'][] = array(
 	'path'           => __FILE__,
 	'name'           => 'SwiftCloudFiles',
+	'url'            => 'https://www.mediawiki.org/wiki/Extension:SwiftCloudFiles',
 	'version'        => '1.7.10-wmf', // from php-cloudfiles
 	'author'         => 'Aaron Schulz',
 	'descriptionmsg' => 'swiftcloudfiles-desc',
