@@ -601,7 +601,7 @@ class CF_Http {
 		if ( $path ) { // b/c
 			$params[] = "path=" . rawurlencode( $path );
 		} elseif ( $delim ) {
-			$params[] = "delimiter=" . str_replace( "%2F", "/", rawurlencode( $delim ) );
+			$params[] = "delimiter=" . rawurlencode( $delim );
 		}
 		if ( !empty( $params ) ) {
 			$url_path .= "?" . implode( "&", $params );
@@ -635,7 +635,7 @@ class CF_Http {
 
 	#
     public function get_objects(
-		$cname, $limit = 0, $marker = NULL, $prefix = NULL, $path = NULL
+		$cname, $limit = 0, $marker = NULL, $prefix = NULL, $path = NULL, $delim = NULL
 	) {
 		if ( !$cname ) {
 			$this->error_str = "Container name not set.";
@@ -656,8 +656,10 @@ class CF_Http {
 		if ( $prefix ) {
 			$params[] = "prefix=" . rawurlencode( $prefix );
 		}
-		if ( $path ) {
+		if ( $path ) { // b/c
 			$params[] = "path=" . rawurlencode( $path );
+		} elseif ( $delim ) {
+			$params[] = "delimiter=" . rawurlencode( $delim );
 		}
 		if ( !empty( $params ) ) {
 			$url_path .= "?" . implode( "&", $params );

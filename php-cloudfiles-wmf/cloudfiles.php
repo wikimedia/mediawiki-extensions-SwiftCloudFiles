@@ -1341,7 +1341,7 @@ class CF_Container {
 	 * @param int $marker <i>optional</i> subset of names starting at $marker
 	 * @param string $prefix <i>optional</i> Objects whose names begin with $prefix
 	 * @param string $path <i>optional</i> only return results under "pathname"
-	 * @param string $delim <i>optional</i> include virtual directories (set this to path separator)
+	 * @param string $delim <i>optional</i> path separator for virtual top-level listing
 	 * @return array array of strings
 	 * @throws InvalidResponseException unexpected response
 	 */
@@ -1401,12 +1401,15 @@ class CF_Container {
 	 * @param int $marker <i>optional</i> subset of names starting at $marker
 	 * @param string $prefix <i>optional</i> Objects whose names begin with $prefix
 	 * @param string $path <i>optional</i> only return results under "pathname"
+	 * @param string $delim <i>optional</i> path separator for virtual top-level listing
 	 * @return array array of strings
 	 * @throws InvalidResponseException unexpected response
 	 */
-	public function get_objects( $limit = 0, $marker = NULL, $prefix = NULL, $path = NULL ) {
+	public function get_objects(
+		$limit = 0, $marker = NULL, $prefix = NULL, $path = NULL, $delim = NULL
+	) {
 		list($status, $reason, $obj_array) =
-			$this->cfs_http->get_objects( $this->name, $limit, $marker, $prefix, $path );
+			$this->cfs_http->get_objects( $this->name, $limit, $marker, $prefix, $path, $delim );
 		#if ($status == 401 && $this->_re_auth()) {
 		#    return $this->get_objects($limit, $marker, $prefix, $path);
 		#}
@@ -1416,12 +1419,14 @@ class CF_Container {
 		}
 		$objects = array( );
 		foreach ( $obj_array as $obj ) {
-			$tmp = new CF_Object( $this, $obj["name"], False, False );
-			$tmp->content_type = $obj["content_type"];
-			$tmp->content_length = (float) $obj["bytes"];
-			$tmp->set_etag( $obj["hash"] );
-			$tmp->last_modified = $obj["last_modified"];
-			$objects[] = $tmp;
+			if ( !isset( $obj['subdir'] ) ) { // virtual dirs have no other info
+				$tmp = new CF_Object( $this, $obj["name"], False, False );
+				$tmp->content_type = $obj["content_type"];
+				$tmp->content_length = (float) $obj["bytes"];
+				$tmp->set_etag( $obj["hash"] );
+				$tmp->last_modified = $obj["last_modified"];
+				$objects[] = $tmp;
+			}
 		}
 		return $objects;
 	}
