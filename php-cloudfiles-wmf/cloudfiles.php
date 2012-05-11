@@ -408,7 +408,7 @@ class CF_Connection {
 	 * <code>
 	 * # ... authentication code excluded (see previous examples) ...
 	 * #
-	 * $conn = new CF_Authentication($auth);
+	 * $conn = new CF_Connection($auth);
 	 *
 	 * list($quantity, $bytes) = $conn->get_info();
 	 * print "Number of containers: " . $quantity . "\n";
@@ -440,7 +440,7 @@ class CF_Connection {
 	 * <code>
 	 * # ... authentication code excluded (see previous examples) ...
 	 * #
-	 * $conn = new CF_Authentication($auth);
+	 * $conn = new CF_Connection($auth);
 	 *
 	 * $images = $conn->create_container("my photos");
 	 * </code>
@@ -490,7 +490,7 @@ class CF_Connection {
 	 * <code>
 	 * # ... authentication code excluded (see previous examples) ...
 	 * #
-	 * $conn = new CF_Authentication($auth);
+	 * $conn = new CF_Connection($auth);
 	 *
 	 * $conn->delete_container("my photos");
 	 * </code>
@@ -545,7 +545,7 @@ class CF_Connection {
 	 * <code>
 	 * # ... authentication code excluded (see previous examples) ...
 	 * #
-	 * $conn = new CF_Authentication($auth);
+	 * $conn = new CF_Connection($auth);
 	 *
 	 * $images = $conn->get_container("my photos");
 	 * print "Number of Objects: " . $images->count . "\n";
@@ -584,7 +584,7 @@ class CF_Connection {
 	 * <code>
 	 * # ... authentication code excluded (see previous examples) ...
 	 * #
-	 * $conn = new CF_Authentication($auth);
+	 * $conn = new CF_Connection($auth);
 	 *
 	 * $clist = $conn->get_containers();
 	 * foreach ($clist as $cont) {
@@ -624,7 +624,7 @@ class CF_Connection {
 	 * <code>
 	 * # ... authentication code excluded (see previous examples) ...
 	 * #
-	 * $conn = new CF_Authentication($auth);
+	 * $conn = new CF_Connection($auth);
 	 *
 	 * $container_list = $conn->list_containers();
 	 * print_r($container_list);
@@ -712,7 +712,7 @@ class CF_Connection {
 	 * <code>
 	 * # ... authentication code excluded (see previous examples) ...
 	 * #
-	 * $conn = new CF_Authentication($auth);
+	 * $conn = new CF_Connection($auth);
 	 *
 	 * $public_containers = $conn->list_public_containers();
 	 * print_r($public_containers);
@@ -962,7 +962,7 @@ class CF_Container {
 	 * <code>
 	 * # ... authentication code excluded (see previous examples) ...
 	 * #
-	 * $conn = new CF_Authentication($auth);
+	 * $conn = new CF_Connection($auth);
 	 *
 	 * $public_container = $conn->create_container("public");
 	 *
@@ -1024,7 +1024,7 @@ class CF_Container {
 	 * <code>
 	 * # ... authentication code excluded (see previous examples) ...
 	 * #
-	 * $conn = new CF_Authentication($auth);
+	 * $conn = new CF_Connection($auth);
 	 * $container = $conn->get_container("cdn_enabled");
 	 * $container->purge_from_cdn("user@domain.com");
 	 * # or
@@ -1055,7 +1055,7 @@ class CF_Container {
 	 * <code>
 	 * # ... authentication code excluded (see previous examples) ...
 	 * #
-	 * $conn = new CF_Authentication($auth);
+	 * $conn = new CF_Connection($auth);
 	 *
 	 * $public_container = $conn->get_container("public");
 	 *
@@ -1092,7 +1092,7 @@ class CF_Container {
 	 * <code>
 	 * # ... authentication code excluded (see previous examples) ...
 	 * #
-	 * $conn = new CF_Authentication($auth);
+	 * $conn = new CF_Connection($auth);
 	 *
 	 * $public_container = $conn->get_container("public");
 	 *
@@ -1135,7 +1135,7 @@ class CF_Container {
 	 * <code>
 	 * # ... authentication code excluded (see previous examples) ...
 	 * #
-	 * $conn = new CF_Authentication($auth);
+	 * $conn = new CF_Connection($auth);
 	 *
 	 * $public_container = $conn->get_container("public");
 	 *
@@ -1179,7 +1179,7 @@ class CF_Container {
 	 * <code>
 	 * # ... authentication code excluded (see previous examples) ...
 	 * #
-	 * $conn = new CF_Authentication($auth);
+	 * $conn = new CF_Connection($auth);
 	 *
 	 * $public_container = $conn->get_container("public");
 	 *
@@ -1228,7 +1228,7 @@ class CF_Container {
 	 * <code>
 	 * # ... authentication code excluded (see previous examples) ...
 	 * #
-	 * $conn = new CF_Authentication($auth);
+	 * $conn = new CF_Connection($auth);
 	 *
 	 * $public_container = $conn->get_container("public");
 	 *
@@ -1253,7 +1253,7 @@ class CF_Container {
 	 * <code>
 	 * # ... authentication code excluded (see previous examples) ...
 	 * #
-	 * $conn = new CF_Authentication($auth);
+	 * $conn = new CF_Connection($auth);
 	 *
 	 * $public_container = $conn->get_container("public");
 	 *
@@ -1281,7 +1281,7 @@ class CF_Container {
 	 * <code>
 	 * # ... authentication code excluded (see previous examples) ...
 	 * #
-	 * $conn = new CF_Authentication($auth);
+	 * $conn = new CF_Connection($auth);
 	 *
 	 * $public_container = $conn->get_container("public");
 	 *
@@ -1436,7 +1436,7 @@ class CF_Container {
 	 * <code>
 	 * # ... authentication code excluded (see previous examples) ...
 	 * #
-	 * $conn = new CF_Authentication($auth);
+	 * $conn = new CF_Connection($auth);
 	 *
 	 * $images = $conn->get_container("my photos");
 	 *
@@ -1555,7 +1555,7 @@ class CF_Container {
 	 * <code>
 	 * # ... authentication code excluded (see previous examples) ...
 	 * #
-	 * $conn = new CF_Authentication($auth);
+	 * $conn = new CF_Connection($auth);
 	 *
 	 * $images = $conn->get_container("my photos");
 	 *
@@ -1632,7 +1632,7 @@ class CF_Container {
 	 * <code>
 	 * # ... authentication code excluded (see previous examples) ...
 	 * #
-	 * $conn = new CF_Authentication($auth);
+	 * $conn = new CF_Connection($auth);
 	 *
 	 * $images = $conn->get_container("my photos");
 	 *
@@ -1681,7 +1681,7 @@ class CF_Container {
 	 * <code>
 	 * # ... authentication code excluded (see previous examples) ...
 	 * #
-	 * $conn = new CF_Authentication($auth);
+	 * $conn = new CF_Connection($auth);
 	 *
 	 * $images = $conn->get_container("my photos");
 	 *
@@ -1719,7 +1719,7 @@ class CF_Container {
 	 * <code>
 	 * # ... authentication code excluded (see previous examples) ...
 	 * #
-	 * $conn = new CF_Authentication($auth);
+	 * $conn = new CF_Connection($auth);
 	 *
 	 * $images = $conn->get_container("my photos");
 	 *
@@ -2485,7 +2485,7 @@ class CF_Object {
 	 * <code>
 	 * # ... authentication code excluded (see previous examples) ...
 	 * #
-	 * $conn = new CF_Authentication($auth);
+	 * $conn = new CF_Connection($auth);
 	 * $container = $conn->get_container("cdn_enabled");
 	 * $obj = $container->get_object("object");
 	 * $obj->purge_from_cdn("user@domain.com");
