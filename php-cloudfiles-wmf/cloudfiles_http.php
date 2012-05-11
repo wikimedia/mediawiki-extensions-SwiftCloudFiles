@@ -580,7 +580,8 @@ class CF_Http {
     public function list_objects(
 		$cname, $limit = 0, $marker = NULL, $prefix = NULL, $path = NULL, $delim = NULL
 	) {
-		if ( !$cname ) {
+		$cname = (string)$cname;
+		if ( $cname === "" ) {
 			$this->error_str = "Container name not set.";
 			return array( 0, $this->error_str, array( ) );
 		}
@@ -637,7 +638,8 @@ class CF_Http {
     public function get_objects(
 		$cname, $limit = 0, $marker = NULL, $prefix = NULL, $path = NULL, $delim = NULL
 	) {
-		if ( !$cname ) {
+		$cname = (string)$cname;
+		if ( $cname === "" ) {
 			$this->error_str = "Container name not set.";
 			return array( 0, $this->error_str, array( ) );
 		}
