@@ -239,8 +239,7 @@ class CF_Http {
 
 		$this->_write_callback_type = "TEXT_LIST";
 		if ( $enabled_only ) {
-			$return_code = $this->_send_request( $conn_type, $url_path .
-			'/?enabled_only=true' );
+			$return_code = $this->_send_request( $conn_type, $url_path . '/?enabled_only=true' );
 		} else {
 			$return_code = $this->_send_request( $conn_type, $url_path );
 		}
@@ -289,9 +288,8 @@ class CF_Http {
 		$container_name, $ttl = 86400, $cdn_log_retention = False,
 		$cdn_acl_user_agent = "", $cdn_acl_referrer = ""
 	) {
-		if ( $container_name == "" ) {
-			throw new SyntaxException( "Container name not set." );
-		} elseif ( $container_name != "0" and !isset( $container_name ) ) {
+		$container_name = (string)$container_name;
+		if ( $container_name === "" ) {
 			throw new SyntaxException( "Container name not set." );
 		}
 
@@ -323,9 +321,8 @@ class CF_Http {
 
 	#
     public function add_cdn_container( $container_name, $ttl = 86400 ) {
-		if ( $container_name == "" ) {
-			throw new SyntaxException( "Container name not set." );
-		} elseif ( $container_name != "0" and !isset( $container_name ) ) {
+		$container_name = (string)$container_name;
+		if ( $container_name === "" ) {
 			throw new SyntaxException( "Container name not set." );
 		}
 
@@ -351,9 +348,8 @@ class CF_Http {
 
 	#
     public function remove_cdn_container( $container_name ) {
-		if ( $container_name == "" ) {
-			throw new SyntaxException( "Container name not set." );
-		} elseif ( $container_name != "0" and !isset( $container_name ) ) {
+		$container_name = (string)$container_name;
+		if ( $container_name === "" ) {
 			throw new SyntaxException( "Container name not set." );
 		}
 
@@ -379,9 +375,8 @@ class CF_Http {
 
 	#
     public function head_cdn_container( $container_name ) {
-		if ( $container_name == "" ) {
-			throw new SyntaxException( "Container name not set." );
-		} elseif ( $container_name != "0" and !isset( $container_name ) ) {
+		$container_name = (string)$container_name;
+		if ( $container_name === "" ) {
 			throw new SyntaxException( "Container name not set." );
 		}
 
@@ -527,9 +522,8 @@ class CF_Http {
 
 	#
     public function create_container( $container_name ) {
-		if ( $container_name == "" ) {
-			throw new SyntaxException( "Container name not set." );
-		} elseif ( $container_name != "0" and !isset( $container_name ) ) {
+		$container_name = (string)$container_name;
+		if ( $container_name === "" ) {
 			throw new SyntaxException( "Container name not set." );
 		}
 
@@ -547,9 +541,8 @@ class CF_Http {
 
 	#
     public function delete_container( $container_name ) {
-		if ( $container_name == "" ) {
-			throw new SyntaxException( "Container name not set." );
-		} elseif ( $container_name != "0" and !isset( $container_name ) ) {
+		$container_name = (string)$container_name;
+		if ( $container_name === "" ) {
 			throw new SyntaxException( "Container name not set." );
 		}
 
@@ -691,12 +684,8 @@ class CF_Http {
 
 	#
     public function head_container( $container_name ) {
-		if ( $container_name == "" ) {
-			$this->error_str = "Container name not set.";
-			return False;
-		}
-
-		if ( $container_name != "0" and !isset( $container_name ) ) {
+		$container_name = (string)$container_name;
+		if ( $container_name === "" ) {
 			$this->error_str = "Container name not set.";
 			return False;
 		}
@@ -959,22 +948,14 @@ class CF_Http {
 			return 0;
 		}
 
-		if ( $container_name_source == "" ) {
+		$container_name_source = (string)$container_name_source;
+		if ( $container_name_source === "" ) {
 			$this->error_str = "Container name source not set.";
 			return 0;
 		}
 
-		if ( $container_name_source != "0" and !isset( $container_name_source ) ) {
-			$this->error_str = "Container name source not set.";
-			return 0;
-		}
-
-		if ( $container_name_target == "" ) {
-			$this->error_str = "Container name target not set.";
-			return 0;
-		}
-
-		if ( $container_name_target != "0" and !isset( $container_name_target ) ) {
+		$container_name_target = (string)$container_name_target;
+		if ( $container_name_target === "" ) {
 			$this->error_str = "Container name target not set.";
 			return 0;
 		}
@@ -1030,12 +1011,8 @@ class CF_Http {
 	}
 
     private function delete_object_INIT( $container_name, $object_name ) {
-		if ( $container_name == "" ) {
-			$this->error_str = "Container name not set.";
-			return 0;
-		}
-
-		if ( $container_name != "0" and !isset( $container_name ) ) {
+		$container_name = (string)$container_name;
+		if ( $container_name === "" ) {
 			$this->error_str = "Container name not set.";
 			return 0;
 		}
@@ -1369,10 +1346,8 @@ class CF_Http {
 				$path[] = $this->cdnm_url;
 				break;
 		}
-		if ( $c == "0" )
-			$path[] = rawurlencode( $c );
-
-		if ( $c ) {
+		$c = (string)$c;
+		if ( $c !== "" ) {
 			$path[] = rawurlencode( $c );
 		}
 		if ( $o ) {
@@ -1526,7 +1501,6 @@ class CF_Http {
 		$this->_text_list = explode( "\n", rtrim( $this->_return_list, "\n\x0B" ) );
 		return True;
 	}
-
 }
 
 /**
