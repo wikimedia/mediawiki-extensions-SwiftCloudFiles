@@ -1489,15 +1489,16 @@ class CF_Container {
 		$async, $obj, $container_target, $dest_obj_name, $metadata, $headers
 	) {
 		$callbackReturn = function( $result, array $info ) {
+			$self = $info['this'];
 			$status = $result;
 			if ( $status == 404 ) {
 				throw new NoSuchObjectException( "Specified object '" .
-					$this->name . "/" . $info['obj_name'] .
+					$self->name . "/" . $info['obj_name'] .
 					"' did not exist as source to copy from or '" .
 					$info['container_name_target'] . "' did not exist as target to copy to." );
 			} elseif ( $status < 200 || $status > 299 ) {
 				throw new InvalidResponseException(
-					"Invalid response (" . $status . "): " . $this->cfs_http->get_error() );
+					"Invalid response (" . $status . "): " . $self->cfs_http->get_error() );
 			}
 			return true;
 		};
@@ -1537,6 +1538,7 @@ class CF_Container {
 				$callbackReturn, // callback
 				$obj_name, $dest_obj_name, $this->name, $container_name_target, $metadata, $headers
 			)->setInfo( array(
+				'this'                  => $this,
 				'obj_name'              => $obj_name,
 				'container_name_target' => $container_name_target
 			) );
@@ -1544,6 +1546,7 @@ class CF_Container {
 			$result = $this->cfs_http->copy_object( $obj_name, $dest_obj_name,
 				$this->name, $container_name_target, $metadata, $headers );
 			return $callbackReturn( $result, array(
+				'this'                  => $this,
 				'obj_name'              => $obj_name,
 				'container_name_target' => $container_name_target
 			) );
@@ -1761,13 +1764,14 @@ class CF_Container {
 	 */
 	private function delete_object_internal( $async, $obj, $container ) {
 		$callbackReturn = function( $result, array $info ) {
+			$self = $info['this'];
 			$status = $result;
 			if ( $status == 404 ) {
 				throw new NoSuchObjectException( "Specified object '" .
 					$container_name . "/" . $obj_name . "' did not exist to delete." );
 			} elseif ( $status != 204 ) {
 				throw new InvalidResponseException(
-					"Invalid response (" . $status . "): " . $this->cfs_http->get_error() );
+					"Invalid response (" . $status . "): " . $self->cfs_http->get_error() );
 			}
 			return True;
 		};
@@ -1807,10 +1811,10 @@ class CF_Container {
 			return $this->cfs_http->delete_object_async(
 				$callbackReturn, // callback
 				$container_name, $obj_name
-			);
+			)->setInfo( array( 'this' => $this ) );
 		} else {
 			$result = $this->cfs_http->delete_object( $container_name, $obj_name );
-			return $callbackReturn( $result, array() );
+			return $callbackReturn( $result, array( 'this' => $this ) );
 		}
 	}
 
@@ -2319,6 +2323,7 @@ class CF_Object {
 	 */
 	private function write_internal( $async, $data, $bytes, $verify ) {
 		$callbackReturn = function( $result, array $info ) {
+			$self = $info['this'];
 			list( $status, $reason, $etag ) = $result;
 			if ( $status == 412 ) {
 				if ( $info['close_fh'] ) {
@@ -2338,10 +2343,10 @@ class CF_Object {
 					fclose( $info['fp'] );
 				}
 				throw new InvalidResponseException( "Invalid response (" . $status . "): "
-					. $this->container->cfs_http->get_error() );
+					. $self->container->cfs_http->get_error() );
 			}
 			if ( !$info['verify'] ) {
-				$this->etag = $etag;
+				$self->etag = $etag;
 			}
 			if ( $info['close_fh'] ) {
 				fclose( $info['fp'] );
@@ -2387,6 +2392,7 @@ class CF_Object {
 				$callbackReturn, // callback
 				$this, $fp
 			)->setInfo( array(
+				'this'     => $this,
 				'fp'       => $fp,
 				'close_fh' => $close_fh,
 				'verify'   => $verify
@@ -2394,6 +2400,7 @@ class CF_Object {
 		} else {
 			$result = $this->container->cfs_http->put_object( $this, $fp );
 			return $callbackReturn( $result, array(
+				'this'     => $this,
 				'fp'       => $fp,
 				'close_fh' => $close_fh,
 				'verify'   => $verify
