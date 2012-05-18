@@ -134,7 +134,7 @@ class CF_Authentication {
 	 * @param string $auth_host Authentication service URI
 	 */
 	public function __construct(
-		$username, $api_key, $unused, $auth_host = US_AUTHURL
+		$username, $api_key, $unused = null, $auth_host = US_AUTHURL
 	) {
 		$this->dbug = False;
 		$this->username = $username;
