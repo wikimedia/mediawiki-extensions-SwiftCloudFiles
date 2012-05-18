@@ -12,7 +12,7 @@ $messages = array();
  * @author Aaron Schulz
  */
 $messages['en'] = array(
-	'swiftcloudfiles-desc' => "Includes and registers the ''php-cloudfiles'' API (https://github.com/rackspace/php-cloudfiles), allowing MediaWiki to interface with an OpenStack Swift storage backend."
+	'swiftcloudfiles-desc' => "Includes and registers the [https://github.com/rackspace/php-cloudfiles ''php-cloudfiles'' API], allowing MediaWiki to interface with an OpenStack Swift storage backend."
 );
 
 /** Belarusian (Taraškievica orthography) (‪Беларуская (тарашкевіца)‬)
