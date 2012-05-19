@@ -1768,7 +1768,8 @@ class CF_Container {
 			$status = $result;
 			if ( $status == 404 ) {
 				throw new NoSuchObjectException( "Specified object '" .
-					$container_name . "/" . $obj_name . "' did not exist to delete." );
+					$info['container_name'] . "/" . $info['obj_name'] .
+					"' did not exist to delete." );
 			} elseif ( $status != 204 ) {
 				throw new InvalidResponseException(
 					"Invalid response (" . $status . "): " . $self->cfs_http->get_error() );
@@ -1811,10 +1812,18 @@ class CF_Container {
 			return $this->cfs_http->delete_object_async(
 				$callbackReturn, // callback
 				$container_name, $obj_name
-			)->setInfo( array( 'this' => $this ) );
+			)->setInfo( array(
+				'this'           => $this,
+				'container_name' => $container_name,
+				'obj_name'       => $obj_name
+			) );
 		} else {
 			$result = $this->cfs_http->delete_object( $container_name, $obj_name );
-			return $callbackReturn( $result, array( 'this' => $this ) );
+			return $callbackReturn( $result, array(
+				'this'           => $this,
+				'container_name' => $container_name,
+				'obj_name'       => $obj_name
+			) );
 		}
 	}
 
