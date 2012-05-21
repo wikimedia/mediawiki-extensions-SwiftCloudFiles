@@ -55,7 +55,7 @@ $messages['fr'] = array(
  * @author Toliño
  */
 $messages['gl'] = array(
-	'swiftcloudfiles-desc' => "Inclúe e rexistra a API ''php-cloudfiles'' (https://github.com/rackspace/php-cloudfiles), o que permite a MediaWiki interactuar cunha infraestrutura de almacenamento OpenStack Swift.",
+	'swiftcloudfiles-desc' => "Inclúe e rexistra a [https://github.com/rackspace/php-cloudfiles  API ''php-cloudfiles''], o que permite a MediaWiki interactuar cunha infraestrutura de almacenamento OpenStack Swift.",
 );
 
 /** Hebrew (עברית)
@@ -83,14 +83,14 @@ $messages['ia'] = array(
  * @author Beta16
  */
 $messages['it'] = array(
-	'swiftcloudfiles-desc' => "Include e registra l'API ''php-cloudfiles'' (https://github.com/rackspace/php-cloudfiles), permettendo a MediaWiki di interfacciarsi con un backend di memorizzazione OpenStack Swift.",
+	'swiftcloudfiles-desc' => "Include e registra l'[https://github.com/rackspace/php-cloudfiles API ''php-cloudfiles''], permettendo a MediaWiki di interfacciarsi con un backend di memorizzazione OpenStack Swift.",
 );
 
 /** Macedonian (Македонски)
  * @author Bjankuloski06
  */
 $messages['mk'] = array(
-	'swiftcloudfiles-desc' => "Го вклучува и регистрира API ''php-cloudfiles'' (https://github.com/rackspace/php-cloudfiles), овозможувајќи му на МедијаВики да се вклопи со складишната подлога OpenStack Swift.",
+	'swiftcloudfiles-desc' => "Го вклучува и регистрира [https://github.com/rackspace/php-cloudfiles ''php-cloudfiles'' API], овозможувајќи му на МедијаВики да се вклопи со складишната подлога OpenStack Swift.",
 );
 
 /** Malayalam (മലയാളം)
@@ -133,6 +133,6 @@ $messages['pms'] = array(
  * @author Minh Nguyen
  */
 $messages['vi'] = array(
-	'swiftcloudfiles-desc' => "Cài và đăng ký API ''php-cloudfiles'' (https://github.com/rackspace/php-cloudfiles) cho phép MediaWiki tác động với phía sau lưu trữ OpenStack Swift.",
+	'swiftcloudfiles-desc' => "Cài và đăng ký [https://github.com/rackspace/php-cloudfiles API ''php-cloudfiles''] cho phép MediaWiki tác động với phía sau lưu trữ OpenStack Swift.",
 );
 
