@@ -1493,10 +1493,10 @@ class CF_Http {
 	}
 
 	public function close() {
-		foreach ( $this->connections as $cnx ) {
+		foreach ( $this->connections as $i => $cnx ) {
 			if ( isset( $cnx ) ) {
 				curl_close( $cnx );
-				$this->connections[$cnx] = NULL;
+				$this->connections[$i] = NULL;
 			}
 		}
 	}
@@ -1676,6 +1676,9 @@ class CF_Async_Op_Batch {
 	 * @return Array The list of CF_Async_Op objects
 	 */
 	public function execute() {
+		if ( !count( $this->requests ) ) {
+			return $this->requests; // nothing to do
+		}
 		$multiHandle = curl_multi_init();
 		for ( $stage=0; $stage < $this->steps; $stage++ ) {
 			// Add all of the required cURL handles...
@@ -1687,7 +1690,26 @@ class CF_Async_Op_Batch {
 				}
 			}
 			// Execute the cURL handles concurrently...
-			$this->send_requests( $multiHandle );
+			$active = null; // handles still being processed
+			if ( substr( php_uname(), 0, 7 ) == 'Windows' ) {
+				do { // avoid curl_multi_select() per PHP bugs 61141 and 61240
+					$mrc = curl_multi_exec( $multiHandle, $active );
+					if ( $mrc != CURLM_CALL_MULTI_PERFORM ) {
+						usleep( 100 ); // .1ms
+					}
+				} while ( $mrc == CURLM_CALL_MULTI_PERFORM || ( $active && $mrc == CURLM_OK ) );
+			} else {
+				do { // start all the requests...
+					$mrc = curl_multi_exec( $multiHandle, $active );
+				} while ( $mrc == CURLM_CALL_MULTI_PERFORM );
+				while ( $active && $mrc == CURLM_OK ) {
+					if ( curl_multi_select( $multiHandle, 10 ) != -1 ) {
+						do { // keep working on this request...
+							$mrc = curl_multi_exec( $multiHandle, $active );
+						} while ( $mrc == CURLM_CALL_MULTI_PERFORM );
+					}
+				}
+			}
 			// Remove all of the added cURL handles and check for errors...
 			foreach ( $this->requests as $request ) {
 				$handle = $request->getStepHandle( $stage );
@@ -1702,20 +1724,5 @@ class CF_Async_Op_Batch {
 			$request->state = CF_Async_Op::STATE_FINISHED;
 		}
 		return $this->requests;
-	}
-
-	private function send_requests( $multiHandle ) {
-		$active = null;
-		do { // start all the requests...
-			$mrc = curl_multi_exec( $multiHandle, $active );
-		} while ( $mrc == CURLM_CALL_MULTI_PERFORM );
-
-		while ( $active && $mrc == CURLM_OK ) {
-			if ( curl_multi_select( $multiHandle ) != -1 ) {
-				do { // keep working on this request...
-					$mrc = curl_multi_exec( $multiHandle, $active );
-				} while ( $mrc == CURLM_CALL_MULTI_PERFORM );
-			}
-		}
 	}
 }
