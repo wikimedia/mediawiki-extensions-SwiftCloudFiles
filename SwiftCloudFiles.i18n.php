@@ -34,7 +34,7 @@ $messages['de'] = array(
  * @author Michawiki
  */
 $messages['dsb'] = array(
-	'swiftcloudfiles-desc' => "Zmóžnja wužywanje ''[https://github.com/rackspace/php-cloudfiles php-cloudfiles]'', z kótarymiž MediaWiki dajo se ako wužywarski powjerch za składowak OpenStack Swift.y",
+	'swiftcloudfiles-desc' => "Zmóžnja wužywanje [https://github.com/rackspace/php-cloudfiles ''php-cloudfiles'' API], z kótarymiž MediaWiki dajo se ako wužywarski powjerch za składowak OpenStack Swift.",
 );
 
 /** Spanish (Español)
@@ -69,7 +69,7 @@ $messages['he'] = array(
  * @author Michawiki
  */
 $messages['hsb'] = array(
-	'swiftcloudfiles-desc' => "Zmóžnja wužiwanje ''[https://github.com/rackspace/php-cloudfiles php-cloudfiles]'', z kotrymiž MediaWiki da so jako wužiwarski powjerch za składowak OpenStack Swift.",
+	'swiftcloudfiles-desc' => "Zmóžnja wužiwanje [https://github.com/rackspace/php-cloudfiles ''php-cloudfiles'' API], z kotrymiž MediaWiki da so jako wužiwarski powjerch za składowak OpenStack Swift.",
 );
 
 /** Interlingua (Interlingua)
