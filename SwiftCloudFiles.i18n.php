@@ -87,6 +87,20 @@ $messages['it'] = array(
 	'swiftcloudfiles-desc' => "Include e registra l'[https://github.com/rackspace/php-cloudfiles API ''php-cloudfiles''], permettendo a MediaWiki di interfacciarsi con un backend di memorizzazione OpenStack Swift.",
 );
 
+/** Korean (한국어)
+ * @author 아라
+ */
+$messages['ko'] = array(
+	'swiftcloudfiles-desc' => "[https://github.com/rackspace/php-cloudfiles ''php-cloudfiles'' API]를 등록하는 것을 보함하고 Swift 스토리지 백엔드와 인터페이스에 MediaWiki를 허용합니다.",
+);
+
+/** Colognian (Ripoarisch)
+ * @author Purodha
+ */
+$messages['ksh'] = array(
+	'swiftcloudfiles-desc' => 'Määd et müjjelesch, de [https://github.com/rackspace/php-cloudfiles <i lang="en">php-cloudfiles-API</i>] ze nozze, womt MediaWiki  als ene Schnetschtäll för der <i lang="en">OpenStack-Swift</i>-Speicher jebruch wääde kann',
+);
+
 /** Macedonian (Македонски)
  * @author Bjankuloski06
  */
