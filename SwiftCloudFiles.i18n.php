@@ -141,7 +141,7 @@ $messages['pl'] = array(
  * @author Dragonòt
  */
 $messages['pms'] = array(
-	'swiftcloudfiles-desc' => "A comprend e a registra l'API ëd ''php-coudfiles'' (https://github.com/rackspace/php-cloudfiles), an përmëttend a MediaWiki d'antërfacesse con un terminal ëd memorisassion OpenStack Swift.",
+	'swiftcloudfiles-desc' => "A comprend e a registra l'[https://github.com/rackspace/php-cloudfiles API ëd ''php-coudfiles''], an përmëttend a MediaWiki d'antërfacesse con un terminal ëd memorisassion OpenStack Swift.",
 );
 
 /** Vietnamese (Tiếng Việt)
