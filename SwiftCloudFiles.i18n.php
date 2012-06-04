@@ -19,7 +19,7 @@ $messages['en'] = array(
  * @author Wizardist
  */
 $messages['be-tarask'] = array(
-	'swiftcloudfiles-desc' => "Уключае і рэгіструе API ''php-cloudfiles'' (https://github.com/rackspace/php-cloudfiles), што дазваляе MediaWiki ўзаемадзейнічаць са сховішчам OpenStack Swift.",
+	'swiftcloudfiles-desc' => "Уключае і рэгіструе [https://github.com/rackspace/php-cloudfiles API ''php-cloudfiles'' ], што дазваляе MediaWiki ўзаемадзейнічаць са сховішчам OpenStack Swift.",
 );
 
 /** German (Deutsch)
