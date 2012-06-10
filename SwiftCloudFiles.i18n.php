@@ -15,6 +15,13 @@ $messages['en'] = array(
 	'swiftcloudfiles-desc' => "Includes and registers the [https://github.com/rackspace/php-cloudfiles ''php-cloudfiles'' API], allowing MediaWiki to interface with an OpenStack Swift storage backend."
 );
 
+/** Message documentation (Message documentation)
+ * @author Purodha
+ */
+$messages['qqq'] = array(
+	'swiftcloudfiles-desc' => 'A "[[:wikipedia:Front and back ends|backend]]" is a system or component that ordinary users don\'t interact with directly and don\'t need to know about, and that is responsible for a distinct task or service - for example, a storage back-end is a generic system for storing data which other applications can use. Possible alternatives for back-end are "system" or "service", or (depending on context and language) even leave it untranslated.',
+);
+
 /** Belarusian (Taraškievica orthography) (‪Беларуская (тарашкевіца)‬)
  * @author Wizardist
  */
