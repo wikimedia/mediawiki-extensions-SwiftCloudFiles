@@ -22,7 +22,7 @@ $messages['qqq'] = array(
 	'swiftcloudfiles-desc' => 'A "[[:wikipedia:Front and back ends|backend]]" is a system or component that ordinary users don\'t interact with directly and don\'t need to know about, and that is responsible for a distinct task or service - for example, a storage back-end is a generic system for storing data which other applications can use. Possible alternatives for back-end are "system" or "service", or (depending on context and language) even leave it untranslated.',
 );
 
-/** Belarusian (Taraškievica orthography) (‪Беларуская (тарашкевіца)‬)
+/** Belarusian (Taraškievica orthography) (‪беларуская (тарашкевіца)‬)
  * @author Wizardist
  */
 $messages['be-tarask'] = array(
@@ -37,7 +37,7 @@ $messages['de'] = array(
 	'swiftcloudfiles-desc' => "Ermöglicht die Verwendung der [https://github.com/rackspace/php-cloudfiles ''php-cloudfiles''-API], mit der MediaWiki als Interface für einen OpenStack-Swift-Speicher genutzt werden kann",
 );
 
-/** Lower Sorbian (Dolnoserbski)
+/** Lower Sorbian (dolnoserbski)
  * @author Michawiki
  */
 $messages['dsb'] = array(
@@ -59,7 +59,7 @@ $messages['fr'] = array(
 	'swiftcloudfiles-desc' => "Inclut et enregistre [https://github.com/rackspace/php-cloudfiles l'API ''php-cloudfiles''], permettant à MediaWiki de s'interfacer avec un terminal de stockage OpenStack Swift.",
 );
 
-/** Galician (Galego)
+/** Galician (galego)
  * @author Toliño
  */
 $messages['gl'] = array(
@@ -73,7 +73,7 @@ $messages['he'] = array(
 	'swiftcloudfiles-desc' => "הכללה ורישום של [https://github.com/rackspace/php-cloudfiles ה־API של ''php-cloudfiles''], המאפשר למדיה־ויקי להתממשק עם אחסון OpenStack Swift.",
 );
 
-/** Upper Sorbian (Hornjoserbsce)
+/** Upper Sorbian (hornjoserbsce)
  * @author Michawiki
  */
 $messages['hsb'] = array(
