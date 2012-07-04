@@ -98,7 +98,7 @@ $messages['it'] = array(
  * @author 아라
  */
 $messages['ko'] = array(
-	'swiftcloudfiles-desc' => "[https://github.com/rackspace/php-cloudfiles ''php-cloudfiles'' API]를 등록하는 것을 포함하고 Swift 스토리지 백엔드와 인터페이스에 MediaWiki를 허용합니다.",
+	'swiftcloudfiles-desc' => "[https://github.com/rackspace/php-cloudfiles ''php-cloudfiles'' API]를 등록하는 것을 포함하고 Swift 스토리지 백엔드와 인터페이스에 미디어위키를 허용합니다.",
 );
 
 /** Colognian (Ripoarisch)
