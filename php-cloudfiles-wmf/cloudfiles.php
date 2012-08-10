@@ -210,7 +210,6 @@ class CF_Authentication {
 		$this->storage_url = $surl;
 		$this->cdnm_url = $curl;
 		$this->auth_token = $atoken;
-
 		return True;
 	}
 
@@ -240,7 +239,6 @@ class CF_Authentication {
 		$this->storage_url = $storage_url;
 		$this->cdnm_url = $cdnm_url;
 		$this->auth_token = $auth_token;
-
 		return True;
 	}
 
@@ -275,7 +273,7 @@ class CF_Authentication {
 	 * @return boolean <kbd>True</kbd> if successfully authenticated
 	 */
 	public function authenticated() {
-		return ( $this->auth_token && ($this->storage_url || $this->cdnm_url) );
+		return ( $this->auth_token && ( $this->storage_url || $this->cdnm_url ) );
 	}
 
 	/**
@@ -285,7 +283,6 @@ class CF_Authentication {
 		$this->dbug = $bool;
 		$this->cfs_http->setDebug( $bool );
 	}
-
 }
 
 /**
@@ -410,7 +407,7 @@ class CF_Connection {
 	 * #
 	 * $conn = new CF_Connection($auth);
 	 *
-	 * list($quantity, $bytes) = $conn->get_info();
+	 * list( $quantity, $bytes ) = $conn->get_info();
 	 * print "Number of containers: " . $quantity . "\n";
 	 * print "Bytes stored in container: " . $bytes . "\n";
 	 * </code>
@@ -419,7 +416,7 @@ class CF_Connection {
 	 * @throws InvalidResponseException unexpected response
 	 */
 	public function get_info() {
-		list($status, $reason, $container_count, $total_bytes) = $this->cfs_http->head_account();
+		list( $status, $reason, $container_count, $total_bytes ) = $this->cfs_http->head_account();
 		#if ($status == 401 && $this->_re_auth()) {
 		#    return $this->get_info();
 		#}
@@ -558,7 +555,7 @@ class CF_Connection {
 	 * @throws InvalidResponseException unexpected response
 	 */
 	public function get_container( $container_name = NULL ) {
-		list($status, $reason, $count, $bytes) =
+		list( $status, $reason, $count, $bytes ) =
 			$this->cfs_http->head_container( $container_name );
 		#if ($status == 401 && $this->_re_auth()) {
 		#    return $this->get_container($container_name);
@@ -598,7 +595,7 @@ class CF_Connection {
 	 * @throws InvalidResponseException unexpected response
 	 */
 	public function get_containers( $limit = 0, $marker = NULL ) {
-		list($status, $reason, $container_info) =
+		list( $status, $reason, $container_info ) =
 			$this->cfs_http->list_containers_info( $limit, $marker );
 		#if ($status == 401 && $this->_re_auth()) {
 		#    return $this->get_containers();
@@ -641,7 +638,7 @@ class CF_Connection {
 	 * @throws InvalidResponseException unexpected response
 	 */
 	public function list_containers( $limit = 0, $marker = NULL ) {
-		list($status, $reason, $containers) =
+		list( $status, $reason, $containers ) =
 			$this->cfs_http->list_containers( $limit, $marker );
 		#if ($status == 401 && $this->_re_auth()) {
 		#    return $this->list_containers($limit, $marker);
@@ -688,7 +685,7 @@ class CF_Connection {
 	 * @throws InvalidResponseException unexpected response
 	 */
 	public function list_containers_info( $limit = 0, $marker = NULL ) {
-		list($status, $reason, $container_info) =
+		list( $status, $reason, $container_info ) =
 			$this->cfs_http->list_containers_info( $limit, $marker );
 		#if ($status == 401 && $this->_re_auth()) {
 		#    return $this->list_containers_info($limit, $marker);
@@ -729,7 +726,7 @@ class CF_Connection {
 	 * @throws InvalidResponseException unexpected response
 	 */
 	public function list_public_containers( $enabled_only = False ) {
-		list($status, $reason, $containers) =
+		list( $status, $reason, $containers ) =
 			$this->cfs_http->list_cdn_containers( $enabled_only );
 		#if ($status == 401 && $this->_re_auth()) {
 		#    return $this->list_public_containers();
@@ -984,7 +981,7 @@ class CF_Container {
 		}
 		if ( $this->cdn_uri != NULL ) {
 			# previously published, assume we're setting new attributes
-			list($status, $reason, $cdn_uri, $cdn_ssl_uri) =
+			list( $status, $reason, $cdn_uri, $cdn_ssl_uri ) =
 				$this->cfs_http->update_cdn_container( $this->name, $ttl,
 					$this->cdn_log_retention, $this->cdn_acl_user_agent, $this->cdn_acl_referrer );
 			#if ($status == 401 && $this->_re_auth()) {
@@ -993,12 +990,12 @@ class CF_Container {
 			if ( $status == 404 ) {
 				# this instance _thinks_ the container was published, but the
 				# cdn management system thinks otherwise - try again with a PUT
-				list($status, $reason, $cdn_uri, $cdn_ssl_uri) =
+				list( $status, $reason, $cdn_uri, $cdn_ssl_uri ) =
 					$this->cfs_http->add_cdn_container( $this->name, $ttl );
 			}
 		} else {
 			# publish it for first time
-			list($status, $reason, $cdn_uri, $cdn_ssl_uri) =
+			list( $status, $reason, $cdn_uri, $cdn_ssl_uri ) =
 				$this->cfs_http->add_cdn_container( $this->name, $ttl );
 		}
 		#if ($status == 401 && $this->_re_auth()) {
@@ -1073,7 +1070,7 @@ class CF_Container {
 			throw new CDNNotEnabledException(
 				"Authentication response did not indicate CDN availability" );
 		}
-		list($status, $reason) =
+		list( $status, $reason ) =
 			$this->cfs_http->update_cdn_container( $this->name, $this->cdn_ttl,
 				$this->cdn_log_retention, $cdn_acl_user_agent, $this->cdn_acl_referrer
 		);
@@ -1110,7 +1107,7 @@ class CF_Container {
 			throw new CDNNotEnabledException(
 				"Authentication response did not indicate CDN availability" );
 		}
-		list($status, $reason) =
+		list( $status, $reason ) =
 			$this->cfs_http->update_cdn_container( $this->name, $this->cdn_ttl,
 				$this->cdn_log_retention, $this->cdn_acl_user_agent, $cdn_acl_referrer
 		);
@@ -1153,7 +1150,7 @@ class CF_Container {
 			throw new CDNNotEnabledException(
 				"Authentication response did not indicate CDN availability" );
 		}
-		list($status, $reason) =
+		list( $status, $reason ) =
 			$this->cfs_http->update_cdn_container( $this->name, $this->cdn_ttl,
 				$cdn_log_retention, $this->cdn_acl_user_agent, $this->cdn_acl_referrer );
 		if ( !in_array( $status, array( 202, 404 ) ) ) {
@@ -1199,7 +1196,7 @@ class CF_Container {
 			throw new CDNNotEnabledException(
 				"Authentication response did not indicate CDN availability" );
 		}
-		list($status, $reason) = $this->cfs_http->remove_cdn_container( $this->name );
+		list( $status, $reason ) = $this->cfs_http->remove_cdn_container( $this->name );
 		#if ($status == 401 && $this->_re_auth()) {
 		#    return $this->make_private();
 		#}
@@ -1348,7 +1345,7 @@ class CF_Container {
 	public function list_objects(
 		$limit = 0, $marker = NULL, $prefix = NULL, $path = NULL, $delim = NULL
 	) {
-		list($status, $reason, $obj_list) =
+		list( $status, $reason, $obj_list ) =
 			$this->cfs_http->list_objects( $this->name, $limit, $marker, $prefix, $path, $delim );
 		#if ($status == 401 && $this->_re_auth()) {
 		#    return $this->list_objects($limit, $marker, $prefix, $path);
@@ -1408,7 +1405,7 @@ class CF_Container {
 	public function get_objects(
 		$limit = 0, $marker = NULL, $prefix = NULL, $path = NULL, $delim = NULL
 	) {
-		list($status, $reason, $obj_array) =
+		list( $status, $reason, $obj_array ) =
 			$this->cfs_http->get_objects( $this->name, $limit, $marker, $prefix, $path, $delim );
 		#if ($status == 401 && $this->_re_auth()) {
 		#    return $this->get_objects($limit, $marker, $prefix, $path);
@@ -1861,8 +1858,8 @@ class CF_Container {
 	 * @throws InvalidResponseException unexpected response
 	 */
 	private function _cdn_initialize() {
-		list($status, $reason, $cdn_enabled, $cdn_ssl_uri, $cdn_streaming_uri, $cdn_uri, $cdn_ttl,
-			$cdn_log_retention, $cdn_acl_user_agent, $cdn_acl_referrer) =
+		list( $status, $reason, $cdn_enabled, $cdn_ssl_uri, $cdn_streaming_uri, $cdn_uri, $cdn_ttl,
+			$cdn_log_retention, $cdn_acl_user_agent, $cdn_acl_referrer ) =
 				$this->cfs_http->head_cdn_container( $this->name );
 		#if ($status == 401 && $this->_re_auth()) {
 		#    return $this->_cdn_initialize();
@@ -2134,7 +2131,7 @@ class CF_Object {
 	 * @throws InvalidResponseException unexpected response
 	 */
 	public function read( $hdrs = array( ) ) {
-		list($status, $reason, $data) =
+		list( $status, $reason, $data ) =
 			$this->container->cfs_http->get_object_to_string( $this, $hdrs );
 		#if ($status == 401 && $this->_re_auth()) {
 		#    return $this->read($hdrs);
@@ -2189,7 +2186,7 @@ class CF_Object {
 	 * @throws InvalidResponseException unexpected response
 	 */
 	public function stream( &$fp, $hdrs = array( ) ) {
-		list($status, $reason) =
+		list( $status, $reason ) =
 			$this->container->cfs_http->get_object_to_stream( $this, $fp, $hdrs );
 		#if ($status == 401 && $this->_re_auth()) {
 		#    return $this->stream($fp, $hdrs);
@@ -2592,8 +2589,8 @@ class CF_Object {
 	 * PRIVATE: fetch information about the remote Object if it exists
 	 */
 	private function _initialize( $hdrs = array( ) ) {
-		list($status, $reason, $etag, $last_modified, $content_type,
-			$content_length, $metadata, $manifest, $headers) =
+		list( $status, $reason, $etag, $last_modified, $content_type,
+			$content_length, $metadata, $manifest, $headers ) =
 				$this->container->cfs_http->head_object( $this, $hdrs );
 		#if ($status == 401 && $this->_re_auth()) {
 		#    return $this->_initialize();
