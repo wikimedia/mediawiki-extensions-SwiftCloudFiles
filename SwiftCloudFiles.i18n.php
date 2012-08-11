@@ -101,6 +101,13 @@ $messages['it'] = array(
 	'swiftcloudfiles-desc' => "Include e registra l'[https://github.com/rackspace/php-cloudfiles API ''php-cloudfiles''], permettendo a MediaWiki di interfacciarsi con un backend di memorizzazione OpenStack Swift.",
 );
 
+/** Japanese (日本語)
+ * @author Shirayuki
+ */
+$messages['ja'] = array(
+	'swiftcloudfiles-desc' => "[https://github.com/rackspace/php-cloudfiles ''php-cloudfiles'' API]を読み込んで登録し、MediaWiki が OpenStack Swift ストレージバックエンドと連動できるようにする。",
+);
+
 /** Korean (한국어)
  * @author 아라
  */
