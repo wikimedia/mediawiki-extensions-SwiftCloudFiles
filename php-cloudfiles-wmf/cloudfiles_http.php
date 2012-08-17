@@ -784,12 +784,12 @@ class CF_Http {
 	# PUT /v1/Account/Container/Object
 
 	#
-    public function put_object_async( Closure $callback, CF_Object $obj, &$fp ) {
+    public function put_object_async( CF_Object $obj, &$fp ) {
 		$cf_http = $this->forkClient(); // separate TCP connection & response holder
 
 		list( $conn_type, $url_path, $hdrs ) = $cf_http->put_object_INIT( $obj, $fp );
 
-		return new CF_Async_Op( $cf_http, 'put_object_RETURN', $callback,
+		return new CF_Async_Op( $cf_http, 'put_object_RETURN',
 			$cf_http->_send_request_HANDLE( $conn_type, $url_path, $hdrs )
 		);
 	}
@@ -932,7 +932,7 @@ class CF_Http {
 
 	#
     public function copy_object_async(
-		Closure $callback, $src_obj_name, $dest_obj_name,
+		$src_obj_name, $dest_obj_name,
 		$container_name_source, $container_name_target, $metadata = NULL, $headers = NULL
 	) {
 		$cf_http = $this->forkClient(); // separate TCP connection & response holder
@@ -941,7 +941,7 @@ class CF_Http {
 			$src_obj_name, $dest_obj_name, $container_name_source, $container_name_target,
 			$metadata, $headers );
 
-		return new CF_Async_Op( $cf_http, 'copy_object_RETURN', $callback,
+		return new CF_Async_Op( $cf_http, 'copy_object_RETURN',
 			$cf_http->_send_request_HANDLE( $conn_type, $url_path, $hdrs, "COPY" )
 		);
 	}
@@ -1004,12 +1004,12 @@ class CF_Http {
 	# DELETE /v1/Account/Container/Object
 
 	#
-    public function delete_object_async( Closure $callback, $container_name, $object_name ) {
+    public function delete_object_async( $container_name, $object_name ) {
 		$cf_http = $this->forkClient(); // separate TCP connection & response holder
 
 		list( $url_path ) = $cf_http->delete_object_INIT( $container_name, $object_name );
 
-		return new CF_Async_Op( $cf_http, 'delete_object_RETURN', $callback,
+		return new CF_Async_Op( $cf_http, 'delete_object_RETURN',
 			$cf_http->_send_request_HANDLE( "DEL_POST", $url_path, NULL, "DELETE" )
 		);
 	}
@@ -1538,32 +1538,33 @@ class CF_Async_Op {
 	 *
 	 * @param $cf_http CF_Http
 	 * @param $http_callback String Method name of the CF_Http object
-	 * @param $callback Array Final PHP callback
 	 * @param $handle resource cURL handle
 	 * @throws SyntaxException
 	 */
-	public function __construct( CF_Http $cf_http, $http_callback, Closure $callback, $handle ) {
-		if ( !is_callable( $callback ) ) {
-			throw new SyntaxException( 'invalid callback given' );
-		}
+	public function __construct( CF_Http $cf_http, $http_callback, $handle ) {
 		$http_callback = array( $cf_http, $http_callback );
 		if ( !is_callable( $http_callback ) ) {
-			throw new SyntaxException( "invalid callback" );
+			throw new SyntaxException( "Invalid HTTP callback" );
 		} elseif ( !is_resource( $handle ) ) {
-			throw new SyntaxException( "invalid cURL handle" );
+			throw new SyntaxException( "Invalid cURL handle" );
 		}
 		$this->steps[] = array( // first step
-			'http' => $cf_http, 'http_callback' => $http_callback, 'handle' => $handle );
-		$this->callback = $callback;
+			'http' => $cf_http, 'http_callback' => $http_callback, 'handle' => $handle
+		);
 	}
 
 	/**
-	 * Set an array of values to pass as the second argument to the final callback
+	 * Set the final callback and the array of values to pass to this callback
 	 *
+	 * @param $callback Array Final PHP callback
 	 * @param $info Array
 	 * @return CF_Async_Op This object
 	 */
-	public function setInfo( array $info ) {
+	public function setCallback( Closure $callback, array $info ) {
+		if ( !is_callable( $callback ) ) {
+			throw new SyntaxException( 'Invalid callback given' );
+		}
+		$this->callback     = $callback;
 		$this->callbackInfo = $info;
 		return $this;
 	}
@@ -1584,7 +1585,8 @@ class CF_Async_Op {
 		foreach ( $cfOp->steps as $step ) {
 			$this->steps[] = $step;
 		}
-		$this->callback = $cfOp->callback;
+		$this->callback     = $cfOp->callback;
+		$this->callbackInfo = $cfOp->callbackInfo;
 		return $this;
 	}
 
@@ -1605,8 +1607,9 @@ class CF_Async_Op {
 	}
 
 	/**
-	 * Runs the callback for a step and returns its return value
+	 * Runs the callback for a step and stores its return value
 	 * @param $i integer
+	 * @return void
 	 * @throws SyntaxException
 	 */
 	public function setStepResult( $i ) {
@@ -1615,7 +1618,7 @@ class CF_Async_Op {
 		} elseif ( $this->failed ) {
 			throw new SyntaxException( "curl handle exec already failed" );
 		} elseif ( !isset( $this->steps[$i] ) ) {
-			throw new SyntaxException( "no such HTTP request step" );
+			throw new SyntaxException( "No such HTTP request step" );
 		}
 		$cf_http = $this->steps[$i]['http'];
 		// Interpret the HTTP response and set the error flags...
@@ -1643,6 +1646,8 @@ class CF_Async_Op {
 	public function getLastResponse() {
 		if ( $this->state !== self::STATE_FINISHED ) {
 			throw new SyntaxException( "curl handle exec not called on all steps" );
+		} elseif ( !$this->callback ) {
+			throw new SyntaxException( 'No callback was given' );
 		}
 		return call_user_func( $this->callback, $this->lastResponse, $this->callbackInfo );
 	}

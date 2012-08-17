@@ -1492,7 +1492,7 @@ class CF_Container {
 				throw new NoSuchObjectException( "Specified object '" .
 					$self->name . "/" . $info['obj_name'] .
 					"' did not exist as source to copy from or '" .
-					$info['container_name_target'] . "' did not exist as target to copy to." );
+					$info['container_name'] . "' did not exist as target to copy to." );
 			} elseif ( $status < 200 || $status > 299 ) {
 				throw new InvalidResponseException(
 					"Invalid response (" . $status . "): " . $self->cfs_http->get_error() );
@@ -1517,35 +1517,35 @@ class CF_Container {
 			$dest_obj_name = $obj_name;
 		}
 
-		$container_name_target = NULL;
+		$container_name = NULL;
 		if ( is_object( $container_target ) ) {
 			if ( get_class( $container_target ) == "CF_Container" ) {
-				$container_name_target = $container_target->name;
+				$container_name = $container_target->name;
 			}
 		}
 		if ( is_string( $container_target ) ) {
-			$container_name_target = $container_target;
+			$container_name = $container_target;
 		}
-		if ( !$container_name_target ) {
+		if ( !$container_name ) {
 			throw new SyntaxException( "Container name target not set." );
 		}
 
 		if ( $async === 'async' ) {
 			return $this->cfs_http->copy_object_async(
-				$callbackReturn, // callback
-				$obj_name, $dest_obj_name, $this->name, $container_name_target, $metadata, $headers
-			)->setInfo( array(
-				'this'                  => $this,
-				'obj_name'              => $obj_name,
-				'container_name_target' => $container_name_target
+				$obj_name, $dest_obj_name, $this->name, $container_name, $metadata, $headers
+			)->setCallback( $callbackReturn, array(
+				'this'           => $this,
+				'obj_name'       => $obj_name,
+				'container_name' => $container_name
 			) );
 		} else {
-			$result = $this->cfs_http->copy_object( $obj_name, $dest_obj_name,
-				$this->name, $container_name_target, $metadata, $headers );
+			$result = $this->cfs_http->copy_object(
+				$obj_name, $dest_obj_name, $this->name, $container_name, $metadata, $headers
+			);
 			return $callbackReturn( $result, array(
-				'this'                  => $this,
-				'obj_name'              => $obj_name,
-				'container_name_target' => $container_name_target
+				'this'           => $this,
+				'obj_name'       => $obj_name,
+				'container_name' => $container_name
 			) );
 		}
 	}
@@ -1692,9 +1692,8 @@ class CF_Container {
 
 		if ( $async === 'async' ) {
 			return $this->cfs_http->delete_object_async(
-				$callbackReturn, // callback
 				$container_name, $obj_name
-			)->setInfo( array(
+			)->setCallback( $callbackReturn, array(
 				'this'           => $this,
 				'container_name' => $container_name,
 				'obj_name'       => $obj_name
@@ -2280,9 +2279,8 @@ class CF_Object {
 
 		if ( $async === 'async' ) {
 			return $this->container->cfs_http->put_object_async(
-				$callbackReturn, // callback
 				$this, $fp
-			)->setInfo( array(
+			)->setCallback( $callbackReturn, array(
 				'this'     => $this,
 				'fp'       => $fp,
 				'close_fh' => $close_fh,
