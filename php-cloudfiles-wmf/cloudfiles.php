@@ -1551,83 +1551,6 @@ class CF_Container {
 	}
 
 	/**
-	 * Copy a remote storage Object from a source Container
-	 *
-	 * Given an Object instance or name and a source Container instance or name, copy copies the remote Object
-	 * and all associated metadata.
-	 *
-	 * Example:
-	 * <code>
-	 * # ... authentication code excluded (see previous examples) ...
-	 * #
-	 * $conn = new CF_Connection($auth);
-	 *
-	 * $images = $conn->get_container("my photos");
-	 *
-	 * # Copy specific object
-	 * #
-	 * $images->copy_object_from("disco_dancing.jpg","container_source");
-	 * </code>
-	 *
-	 * @param obj $obj name or instance of Object to copy
-	 * @param obj $container_source name or instance of source Container
-	 * @param string $dest_obj_name name of target object (optional - uses source name if omitted)
-	 * @param array $metadata metadata array for new object (optional)
-	 * @param array $headers header fields array for the new object (optional)
-	 * @return boolean <kbd>true</kbd> if successfully copied
-	 * @throws SyntaxException invalid Object/Container name
-	 * @throws NoSuchObjectException remote Object does not exist
-	 * @throws InvalidResponseException unexpected response
-	 */
-	public function copy_object_from(
-		$obj, $container_source, $dest_obj_name = NULL, $metadata = NULL, $headers = NULL
-	) {
-		$obj_name = NULL;
-		if ( is_object( $obj ) ) {
-			if ( get_class( $obj ) == "CF_Object" ) {
-				$obj_name = $obj->name;
-			}
-		}
-		if ( is_string( $obj ) ) {
-			$obj_name = $obj;
-		}
-		if ( !$obj_name ) {
-			throw new SyntaxException( "Object name not set." );
-		}
-
-		if ( $dest_obj_name === NULL ) {
-			$dest_obj_name = $obj_name;
-		}
-
-		$container_name_source = NULL;
-		if ( is_object( $container_source ) ) {
-			if ( get_class( $container_source ) == "CF_Container" ) {
-				$container_name_source = $container_source->name;
-			}
-		}
-		if ( is_string( $container_source ) ) {
-			$container_name_source = $container_source;
-		}
-		if ( !$container_name_source ) {
-			throw new SyntaxException( "Container name source not set." );
-		}
-
-		$status = $this->cfs_http->copy_object( $obj_name, $dest_obj_name,
-			$container_name_source, $this->name, $metadata, $headers );
-		if ( $status == 404 ) {
-			$m = "Specified object '" . $container_name_source . "/" . $obj_name;
-			$m.= "' did not exist as source to copy from or '" . $this->name . "/" .
-				$obj_name . "' did not exist as target to copy to.";
-			throw new NoSuchObjectException( $m );
-		} elseif ( $status < 200 || $status > 299 ) {
-			throw new InvalidResponseException(
-				"Invalid response (" . $status . "): " . $this->cfs_http->get_error() );
-		}
-
-		return true;
-	}
-
-	/**
 	 * Move a remote storage Object to a target Container
 	 *
 	 * Given an Object instance or name and a target Container instance or name, move copies the remote Object
@@ -1674,44 +1597,6 @@ class CF_Container {
 		return $this->copy_object_to_async(
 			$obj, $container_target, $dest_obj_name, $metadata, $headers
 		)->combine( $this->delete_object_async( $obj, $this->name ) );
-	}
-
-	/**
-	 * Move a remote storage Object from a source Container
-	 *
-	 * Given an Object instance or name and a source Container instance or name, move copies the remote Object
-	 * and all associated metadata and deletes the source Object afterwards
-	 *
-	 * Example:
-	 * <code>
-	 * # ... authentication code excluded (see previous examples) ...
-	 * #
-	 * $conn = new CF_Connection($auth);
-	 *
-	 * $images = $conn->get_container("my photos");
-	 *
-	 * # Move specific object
-	 * #
-	 * $images->move_object_from("disco_dancing.jpg","container_target");
-	 * </code>
-	 *
-	 * @param obj $obj name or instance of Object to move
-	 * @param obj $container_source name or instance of target Container
-	 * @param string $dest_obj_name name of target object (optional - uses source name if omitted)
-	 * @param array $metadata metadata array for new object (optional)
-	 * @param array $headers header fields array for the new object (optional)
-	 * @return boolean <kbd>true</kbd> if successfully moved
-	 * @throws SyntaxException invalid Object/Container name
-	 * @throws NoSuchObjectException remote Object does not exist
-	 * @throws InvalidResponseException unexpected response
-	 */
-	public function move_object_from(
-		$obj, $container_source, $dest_obj_name = NULL, $metadata = NULL, $headers = NULL
-	) {
-		$retVal = $this->copy_object_from(
-			$obj, $container_source, $dest_obj_name, $metadata, $headers );
-
-		return $retVal ? $this->delete_object( $obj, $container_source ) : False;
 	}
 
 	/**
