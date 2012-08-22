@@ -225,13 +225,13 @@ class CF_Authentication {
 	 * </code>
 	 *
 	 * @param string $auth_token A Cloud Files Auth Token (Required)
-	 * @param string $storage_url The Cloud Files Storage URL (Required)
-	 * @param string $cdnm_url CDN Management URL (Required)
+	 * @param string $storage_url The Cloud Files Storage URL (Optional if $cdnm_url set)
+	 * @param string $cdnm_url CDN Management URL (Optional if $storage_url set)
 	 * @return boolean <kbd>True</kbd> if successful
 	 * @throws SyntaxException If any of the Required Arguments are missing
 	 */
 	public function load_cached_credentials( $auth_token, $storage_url, $cdnm_url ) {
-		if ( !$storage_url || !$cdnm_url ) {
+		if ( !$storage_url && !$cdnm_url ) {
 			throw new SyntaxException( "Missing Required Interface URL's!" );
 		} elseif ( !$auth_token ) {
 			throw new SyntaxException( "Missing Auth Token!" );
