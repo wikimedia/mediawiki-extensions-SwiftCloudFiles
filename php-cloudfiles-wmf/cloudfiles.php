@@ -448,9 +448,8 @@ class CF_Connection {
 	 * @throws InvalidResponseException unexpected response
 	 */
 	public function create_container( $container_name = NULL ) {
-		if ( $container_name != "0" and !isset( $container_name ) ) {
-			throw new SyntaxException( "Container name not set." );
-		} elseif ( !isset( $container_name ) or $container_name == "" ) {
+		$container_name = CF_Container::get_container_name( $container_name );
+		if ( $container_name === NULL ) {
 			throw new SyntaxException( "Container name not set." );
 		}
 		if ( strpos( $container_name, "/" ) !== False ) {
@@ -492,7 +491,7 @@ class CF_Connection {
 	 * $conn->delete_container("my photos");
 	 * </code>
 	 *
-	 * @param string|obj $container container name or instance
+	 * @param string|CF_Container $container container name or instance
 	 * @return boolean <kbd>True</kbd> if successfully deleted
 	 * @throws SyntaxException missing proper argument
 	 * @throws InvalidResponseException invalid response
@@ -500,17 +499,9 @@ class CF_Connection {
 	 * @throws NoSuchContainerException remote container does not exist
 	 */
 	public function delete_container( $container = NULL ) {
-		$container_name = NULL;
-		if ( is_object( $container ) ) {
-			if ( get_class( $container ) == "CF_Container" ) {
-				$container_name = $container->name;
-			}
-		}
-		if ( is_string( $container ) ) {
-			$container_name = $container;
-		}
-		if ( $container_name != "0" and !isset( $container_name ) ) {
-			throw new SyntaxException( "Must specify container object or name." );
+		$container_name = CF_Container::get_container_name( $container );
+		if ( $container_name === NULL ) {
+			throw new SyntaxException( "Container name not set." );
 		}
 		$return_code = $this->cfs_http->delete_container( $container_name );
 		if ( !$return_code ) {
@@ -946,6 +937,34 @@ class CF_Container {
 			}
 		}
 		return $me;
+	}
+
+	/**
+	 * @param $obj CF_Object|string
+	 * @return string|null
+	 */
+	public static function get_object_name( $obj ) {
+		$object_name = NULL;
+		if ( $obj instanceof CF_Object ) {
+			$object_name = $obj->name;
+		} elseif ( is_string( $obj ) ) {
+			$object_name = $obj;
+		}
+		return strlen( $object_name ) ? $object_name : NULL;
+	}
+
+	/**
+	 * @param $cont CF_Container|string
+	 * @return string|null
+	 */
+	public static function get_container_name( $cont ) {
+		$container_name = NULL;
+		if ( $cont instanceof CF_Container ) {
+			$container_name = $cont->name;
+		} elseif ( is_string( $cont ) ) {
+			$container_name = $cont;
+		}
+		return strlen( $container_name ) ? $container_name : NULL;
 	}
 
 	/**
@@ -1485,14 +1504,33 @@ class CF_Container {
 	private function copy_object_to_internal(
 		$async, $obj, $container_target, $dest_obj_name, $metadata, $headers
 	) {
-		$callbackReturn = function( $result, array $info ) {
+		$obj_name = CF_Container::get_object_name( $obj );
+		if ( $obj_name === NULL ) {
+			throw new SyntaxException( "Source object name not set." );
+		}
+
+		if ( $dest_obj_name === NULL ) {
+			$dest_obj_name = $obj_name;
+		} else {
+			$dest_obj_name = CF_Container::get_object_name( $dest_obj_name );
+			if ( $dest_obj_name === NULL ) {
+				throw new SyntaxException( "Target object name not set." );
+			}
+		}
+
+		$dest_container_name = CF_Container::get_container_name( $container_target );
+		if ( $dest_container_name === NULL ) {
+			throw new SyntaxException( "Container name target not set." );
+		}
+
+		$callback = function( $result, array $info ) use ( $obj_name, $dest_container_name ) {
 			$self = $info['this'];
 			$status = $result;
 			if ( $status == 404 ) {
 				throw new NoSuchObjectException( "Specified object '" .
-					$self->name . "/" . $info['obj_name'] .
+					$self->name . "/" . $obj_name .
 					"' did not exist as source to copy from or '" .
-					$info['container_name'] . "' did not exist as target to copy to." );
+					$dest_container_name . "' did not exist as target to copy to." );
 			} elseif ( $status < 200 || $status > 299 ) {
 				throw new InvalidResponseException(
 					"Invalid response (" . $status . "): " . $self->cfs_http->get_error() );
@@ -1500,53 +1538,15 @@ class CF_Container {
 			return true;
 		};
 
-		$obj_name = NULL;
-		if ( is_object( $obj ) ) {
-			if ( get_class( $obj ) == "CF_Object" ) {
-				$obj_name = $obj->name;
-			}
-		}
-		if ( is_string( $obj ) ) {
-			$obj_name = $obj;
-		}
-		if ( !$obj_name ) {
-			throw new SyntaxException( "Object name not set." );
-		}
-
-		if ( $dest_obj_name === NULL ) {
-			$dest_obj_name = $obj_name;
-		}
-
-		$container_name = NULL;
-		if ( is_object( $container_target ) ) {
-			if ( get_class( $container_target ) == "CF_Container" ) {
-				$container_name = $container_target->name;
-			}
-		}
-		if ( is_string( $container_target ) ) {
-			$container_name = $container_target;
-		}
-		if ( !$container_name ) {
-			throw new SyntaxException( "Container name target not set." );
-		}
-
 		if ( $async === 'async' ) {
 			return $this->cfs_http->copy_object_async(
-				$obj_name, $dest_obj_name, $this->name, $container_name, $metadata, $headers
-			)->setCallback( $callbackReturn, array(
-				'this'           => $this,
-				'obj_name'       => $obj_name,
-				'container_name' => $container_name
-			) );
+				$obj_name, $dest_obj_name, $this->name, $dest_container_name, $metadata, $headers
+			)->setCallback( $callback, array( 'this' => $this ) );
 		} else {
 			$result = $this->cfs_http->copy_object(
-				$obj_name, $dest_obj_name, $this->name, $container_name, $metadata, $headers
+				$obj_name, $dest_obj_name, $this->name, $dest_container_name, $metadata, $headers
 			);
-			return $callbackReturn( $result, array(
-				'this'           => $this,
-				'obj_name'       => $obj_name,
-				'container_name' => $container_name
-			) );
+			return $callback( $result, array( 'this' => $this ) );
 		}
 	}
 
@@ -1619,14 +1619,13 @@ class CF_Container {
 	 * </code>
 	 *
 	 * @param obj $obj name or instance of Object to delete
-	 * @param obj $container name or instance of Container in which the object resides (optional)
 	 * @return boolean <kbd>True</kbd> if successfully removed
 	 * @throws SyntaxException invalid Object name
 	 * @throws NoSuchObjectException remote Object does not exist
 	 * @throws InvalidResponseException unexpected response
 	 */
-	public function delete_object( $obj, $container = NULL ) {
-		return $this->delete_object_internal( 'sync', $obj, $container );
+	public function delete_object( $obj ) {
+		return $this->delete_object_internal( 'sync', $obj );
 	}
 
 	/**
@@ -1635,8 +1634,8 @@ class CF_Container {
 	 * so this operation can be executed concurrently with other operations.
 	 * @return CF_Async_Op
 	 */
-	public function delete_object_async( $obj, $container = NULL ) {
-		return $this->delete_object_internal( 'async', $obj, $container );
+	public function delete_object_async( $obj ) {
+		return $this->delete_object_internal( 'async', $obj );
 	}
 
 	/**
@@ -1644,14 +1643,18 @@ class CF_Container {
 	 * @return bool|CF_Async_Op
 	 * @throws CloudFilesException
 	 */
-	private function delete_object_internal( $async, $obj, $container ) {
-		$callbackReturn = function( $result, array $info ) {
+	private function delete_object_internal( $async, $obj ) {
+		$obj_name = CF_Container::get_object_name( $obj );
+		if ( $obj_name === NULL ) {
+			throw new SyntaxException( "Object name not set." );
+		}
+
+		$callback = function( $result, array $info ) use ( $obj_name ) {
 			$self = $info['this'];
 			$status = $result;
 			if ( $status == 404 ) {
 				throw new NoSuchObjectException( "Specified object '" .
-					$info['container_name'] . "/" . $info['obj_name'] .
-					"' did not exist to delete." );
+					$self->name . "/" . $obj_name . "' did not exist to delete." );
 			} elseif ( $status != 204 ) {
 				throw new InvalidResponseException(
 					"Invalid response (" . $status . "): " . $self->cfs_http->get_error() );
@@ -1659,52 +1662,13 @@ class CF_Container {
 			return True;
 		};
 
-		$obj_name = NULL;
-		if ( is_object( $obj ) ) {
-			if ( get_class( $obj ) == "CF_Object" ) {
-				$obj_name = $obj->name;
-			}
-		}
-		if ( is_string( $obj ) ) {
-			$obj_name = $obj;
-		}
-		if ( !$obj_name ) {
-			throw new SyntaxException( "Object name not set." );
-		}
-
-		$container_name = NULL;
-
-		if ( $container === NULL ) {
-			$container_name = $this->name;
-		} else {
-			if ( is_object( $container ) ) {
-				if ( get_class( $container ) == "CF_Container" ) {
-					$container_name = $container->name;
-				}
-			}
-			if ( is_string( $container ) ) {
-				$container_name = $container;
-			}
-			if ( !$container_name ) {
-				throw new SyntaxException( "Container name source not set." );
-			}
-		}
-
 		if ( $async === 'async' ) {
 			return $this->cfs_http->delete_object_async(
-				$container_name, $obj_name
-			)->setCallback( $callbackReturn, array(
-				'this'           => $this,
-				'container_name' => $container_name,
-				'obj_name'       => $obj_name
-			) );
+				$this->name, $obj_name
+			)->setCallback( $callback, array( 'this' => $this ) );
 		} else {
-			$result = $this->cfs_http->delete_object( $container_name, $obj_name );
-			return $callbackReturn( $result, array(
-				'this'           => $this,
-				'container_name' => $container_name,
-				'obj_name'       => $obj_name
-			) );
+			$result = $this->cfs_http->delete_object( $this->name, $obj_name );
+			return $callback( $result, array( 'this' => $this ) );
 		}
 	}
 
@@ -1774,7 +1738,6 @@ class CF_Container {
 		$this->cfs_http->setCFAuth( $this->cfs_auth );
 		return True;
 	}
-
 }
 
 /**
@@ -2212,38 +2175,6 @@ class CF_Object {
 	 * @throws CloudFilesException
 	 */
 	private function write_internal( $async, $data, $bytes, $verify ) {
-		$callbackReturn = function( $result, array $info ) {
-			$self = $info['this'];
-			list( $status, $reason, $etag ) = $result;
-			if ( $status == 412 ) {
-				if ( $info['close_fh'] ) {
-					fclose( $info['fp'] );
-				}
-				throw new SyntaxException( "Missing Content-Type header" );
-			}
-			if ( $status == 422 ) {
-				if ( $info['close_fh'] ) {
-					fclose( $info['fp'] );
-				}
-				throw new MisMatchedChecksumException(
-					"Supplied and computed checksums do not match." );
-			}
-			if ( $status != 201 ) {
-				if ( $info['close_fh'] ) {
-					fclose( $info['fp'] );
-				}
-				throw new InvalidResponseException( "Invalid response (" . $status . "): "
-					. $self->container->cfs_http->get_error() );
-			}
-			if ( !$info['verify'] ) {
-				$self->etag = $etag;
-			}
-			if ( $info['close_fh'] ) {
-				fclose( $info['fp'] );
-			}
-			return True;
-		};
-
 		if ( !$data && !is_string( $data ) ) {
 			throw new SyntaxException( "Missing data source." );
 		} elseif ( $bytes > CF_Constants::MAX_OBJECT_SIZE ) {
@@ -2277,23 +2208,45 @@ class CF_Object {
 
 		$this->_guess_content_type( $ct_data );
 
+		$callback = function( $result, array $info ) use ( $fp, $close_fh, $verify ) {
+			$self = $info['this'];
+			list( $status, $reason, $etag ) = $result;
+			if ( $status == 412 ) {
+				if ( $close_fh ) {
+					fclose( $fp );
+				}
+				throw new SyntaxException( "Missing Content-Type header" );
+			}
+			if ( $status == 422 ) {
+				if ( $close_fh ) {
+					fclose( $fp );
+				}
+				throw new MisMatchedChecksumException(
+					"Supplied and computed checksums do not match." );
+			}
+			if ( $status != 201 ) {
+				if ( $close_fh ) {
+					fclose( $fp );
+				}
+				throw new InvalidResponseException( "Invalid response (" . $status . "): "
+					. $self->container->cfs_http->get_error() );
+			}
+			if ( !$verify ) {
+				$self->etag = $etag;
+			}
+			if ( $close_fh ) {
+				fclose( $fp );
+			}
+			return True;
+		};
+
 		if ( $async === 'async' ) {
 			return $this->container->cfs_http->put_object_async(
 				$this, $fp
-			)->setCallback( $callbackReturn, array(
-				'this'     => $this,
-				'fp'       => $fp,
-				'close_fh' => $close_fh,
-				'verify'   => $verify
-			) );
+			)->setCallback( $callback, array( 'this' => $this ) );
 		} else {
 			$result = $this->container->cfs_http->put_object( $this, $fp );
-			return $callbackReturn( $result, array(
-				'this'     => $this,
-				'fp'       => $fp,
-				'close_fh' => $close_fh,
-				'verify'   => $verify
-			) );
+			return $callback( $result, array( 'this' => $this ) );
 		}
 	}
 
