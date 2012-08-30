@@ -2038,7 +2038,9 @@ class CF_Object {
 		#if ($status == 401 && $this->_re_auth()) {
 		#    return $this->stream($fp, $hdrs);
 		#}
-		if ( ($status < 200) || ($status > 299 && $status != 412 && $status != 304) ) {
+		if ( $status == 404 ) {
+			throw new NoSuchObjectException( "No such object '" . $this->name . "'" );
+		} elseif ( ($status < 200) || ($status > 299 && $status != 412 && $status != 304) ) {
 			throw new InvalidResponseException( "Invalid response (" . $status . "): " . $reason );
 		}
 		return True;
