@@ -133,7 +133,7 @@ $messages['mk'] = array(
  * @author Praveenp
  */
 $messages['ml'] = array(
-	'swiftcloudfiles-desc' => "ഓപ്പൺസ്റ്റാക് സ്വിഫ്റ്റ് ശേഖരണ ബാക്കെൻഡുമായി സമ്പർക്കം ചെലുത്താൻ മീഡിയവിക്കിയെ അനുവദിക്കുന്ന ''php-cloudfiles'' എ.പി.ഐ. (https://github.com/rackspace/php-cloudfiles) ഉൾപ്പെടുത്തുകയും രെജിസ്റ്റർ ചെയ്യുകയും ചെയ്യുന്നു.",
+	'swiftcloudfiles-desc' => "ഓപ്പൺസ്റ്റാക് സ്വിഫ്റ്റ് ശേഖരണ ബാക്കെൻഡുമായി സമ്പർക്കം ചെലുത്താൻ മീഡിയവിക്കിയെ അനുവദിക്കുന്ന [https://github.com/rackspace/php-cloudfiles ''php-cloudfiles'' എ.പി.ഐ.] ഉൾപ്പെടുത്തുകയും അംഗീകരിക്കുകയും ചെയ്യുകയും ചെയ്യുന്നു.",
 );
 
 /** Malay (Bahasa Melayu)
