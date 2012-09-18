@@ -1497,7 +1497,7 @@ class CF_Container {
 	}
 
 	/**
-	 * @see CF_Object::copy_object_to()
+	 * @see CF_Container::copy_object_to()
 	 * @return bool|CF_Async_Op
 	 * @throws CloudFilesException
 	 */
@@ -1639,7 +1639,7 @@ class CF_Container {
 	}
 
 	/**
-	 * @see CF_Object::delete_object()
+	 * @see CF_Container::delete_object()
 	 * @return bool|CF_Async_Op
 	 * @throws CloudFilesException
 	 */
