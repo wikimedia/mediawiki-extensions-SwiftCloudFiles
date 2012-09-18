@@ -743,18 +743,32 @@ class CF_Http {
 	# GET /v1/Account/Container/Object
 
 	#
-    public function get_object_to_stream( CF_Object $obj, &$resource = NULL, $hdrs = array( ) ) {
+    public function get_object_to_stream(
+		$async, CF_Object $obj, &$resource = NULL, $hdrs = array( )
+	) {
 		if ( !is_resource( $resource ) ) {
 			throw new SyntaxException( "Resource argument not a valid PHP resource." );
 		}
 
 		$conn_type = "GET_CALL";
-
 		$url_path = $this->_make_path( "STORAGE", $obj->container->name, $obj->name );
-		$this->_obj_write_resource = $resource;
-		$this->_write_callback_type = "OBJECT_STREAM";
-		$return_code = $this->_send_request( $conn_type, $url_path, $hdrs );
 
+		if ( $async === 'async' ) {
+			$cf_http = $this->forkClient(); // separate TCP connection & response holder
+			$cf_http->_obj_write_resource = $resource;
+			$cf_http->_write_callback_type = "OBJECT_STREAM";
+			return new CF_Async_Op( $cf_http, 'get_object_to_stream_RETURN',
+				$cf_http->_send_request_HANDLE( $conn_type, $url_path, $hdrs )
+			);
+		} else {
+			$this->_obj_write_resource = $resource;
+			$this->_write_callback_type = "OBJECT_STREAM";
+			$return_code = $this->_send_request( $conn_type, $url_path, $hdrs );
+			return $this->get_object_to_stream_RETURN( $return_code );
+		}
+	}
+
+	public function get_object_to_stream_RETURN( $return_code ) {
 		if ( !$return_code ) {
 			$this->error_str .= ": Failed to obtain valid HTTP response.";
 			return array( $return_code, $this->error_str );

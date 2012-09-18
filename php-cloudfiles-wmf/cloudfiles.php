@@ -2030,20 +2030,49 @@ class CF_Object {
 	 * @param resource $fp open resource for writing data to
 	 * @param array $hdrs user-defined headers (Range, If-Match, etc.)
 	 * @return string Object's data
+	 * @throws NoSuchObjectException
 	 * @throws InvalidResponseException unexpected response
 	 */
 	public function stream( &$fp, $hdrs = array( ) ) {
-		list( $status, $reason ) =
-			$this->container->cfs_http->get_object_to_stream( $this, $fp, $hdrs );
-		#if ($status == 401 && $this->_re_auth()) {
-		#    return $this->stream($fp, $hdrs);
-		#}
-		if ( $status == 404 ) {
-			throw new NoSuchObjectException( "No such object '" . $this->name . "'" );
-		} elseif ( ($status < 200) || ($status > 299 && $status != 412 && $status != 304) ) {
-			throw new InvalidResponseException( "Invalid response (" . $status . "): " . $reason );
+		return $this->stream_internal( 'sync', $fp, $hdrs );
+	}
+
+	/**
+	 * @see CF_Object::stream()
+	 * @return CF_Async_Op
+	 * @throws NoSuchObjectException
+	 * @throws InvalidResponseException unexpected response
+	 */
+	public function stream_async( &$fp, $hdrs = array( ) ) {
+		return $this->stream_internal( 'async', $fp, $hdrs );
+	}
+
+	/**
+	 * @see CF_Object::stream()
+	 * @return CF_Async_Op
+	 * @throws NoSuchObjectException
+	 * @throws InvalidResponseException unexpected response
+	 */
+	public function stream_internal( $async, &$fp, $hdrs = array( ) ) {
+		$callback = function( $result, array $info ) {
+			$self = $info['this'];
+			list( $status, $reason ) = $result;
+			if ( $status == 404 ) {
+				throw new NoSuchObjectException( "No such object '" . $self->name . "'" );
+			} elseif ( $status < 200 || ($status > 299 && $status != 412 && $status != 304) ) {
+				throw new InvalidResponseException(
+					"Invalid response (" . $status . "): " . $reason );
+			}
+		};
+
+		if ( $async === 'async' ) {
+			return $this->container->cfs_http->get_object_to_stream(
+				$async, $this, $fp, $hdrs
+			)->setCallback( $callback, array( 'this' => $this ) );
+		} else {
+			$result = $this->container->cfs_http->get_object_to_stream( $async, $this, $fp, $hdrs );
+			return $callback( $result, array( 'this' => $this ) );
 		}
-		return True;
 	}
 
 	/**
