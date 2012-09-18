@@ -1975,6 +1975,7 @@ class CF_Object {
 	 *
 	 * @param array $hdrs user-defined headers (Range, If-Match, etc.)
 	 * @return string Object's data
+	 * @throws NoSuchObjectException
 	 * @throws InvalidResponseException unexpected response
 	 */
 	public function read( $hdrs = array( ) ) {
@@ -1983,7 +1984,9 @@ class CF_Object {
 		#if ($status == 401 && $this->_re_auth()) {
 		#    return $this->read($hdrs);
 		#}
-		if ( ($status < 200) || ($status > 299 && $status != 412 && $status != 304) ) {
+		if ( $status == 404 ) {
+			throw new NoSuchObjectException( "No such object '" . $this->name . "'" );
+		} elseif ( $status < 200 || ($status > 299 && $status != 412 && $status != 304) ) {
 			throw new InvalidResponseException( "Invalid response (" . $status . "): "
 				. $this->container->cfs_http->get_error() );
 		}
