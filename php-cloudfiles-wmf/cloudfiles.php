@@ -1539,11 +1539,11 @@ class CF_Container {
 		};
 
 		if ( $async === 'async' ) {
-			return $this->cfs_http->copy_object_async(
+			return $this->cfs_http->copy_object( $async,
 				$obj_name, $dest_obj_name, $this->name, $dest_container_name, $metadata, $headers
 			)->setCallback( $callback, array( 'this' => $this ) );
 		} else {
-			$result = $this->cfs_http->copy_object(
+			$result = $this->cfs_http->copy_object( $async,
 				$obj_name, $dest_obj_name, $this->name, $dest_container_name, $metadata, $headers
 			);
 			return $callback( $result, array( 'this' => $this ) );
@@ -1663,11 +1663,11 @@ class CF_Container {
 		};
 
 		if ( $async === 'async' ) {
-			return $this->cfs_http->delete_object_async(
-				$this->name, $obj_name
+			return $this->cfs_http->delete_object(
+				$async, $this->name, $obj_name
 			)->setCallback( $callback, array( 'this' => $this ) );
 		} else {
-			$result = $this->cfs_http->delete_object( $this->name, $obj_name );
+			$result = $this->cfs_http->delete_object( $async, $this->name, $obj_name );
 			return $callback( $result, array( 'this' => $this ) );
 		}
 	}
@@ -2272,11 +2272,11 @@ class CF_Object {
 		};
 
 		if ( $async === 'async' ) {
-			return $this->container->cfs_http->put_object_async(
-				$this, $fp
+			return $this->container->cfs_http->put_object(
+				$async, $this, $fp
 			)->setCallback( $callback, array( 'this' => $this ) );
 		} else {
-			$result = $this->container->cfs_http->put_object( $this, $fp );
+			$result = $this->container->cfs_http->put_object( $async, $this, $fp );
 			return $callback( $result, array( 'this' => $this ) );
 		}
 	}

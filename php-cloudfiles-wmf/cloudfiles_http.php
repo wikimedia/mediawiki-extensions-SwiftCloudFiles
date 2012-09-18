@@ -768,7 +768,7 @@ class CF_Http {
 		}
 	}
 
-	public function get_object_to_stream_RETURN( $return_code ) {
+	/*private*/ function get_object_to_stream_RETURN( $return_code ) {
 		if ( !$return_code ) {
 			$this->error_str .= ": Failed to obtain valid HTTP response.";
 			return array( $return_code, $this->error_str );
@@ -789,26 +789,7 @@ class CF_Http {
 	# PUT /v1/Account/Container/Object
 
 	#
-    public function put_object( CF_Object $obj, &$fp ) {
-		list( $conn_type, $url_path, $hdrs ) = $this->put_object_INIT( $obj, $fp );
-		$return_code = $this->_send_request( $conn_type, $url_path, $hdrs );
-		return $this->put_object_RETURN( $return_code );
-	}
-
-	# PUT /v1/Account/Container/Object
-
-	#
-    public function put_object_async( CF_Object $obj, &$fp ) {
-		$cf_http = $this->forkClient(); // separate TCP connection & response holder
-
-		list( $conn_type, $url_path, $hdrs ) = $cf_http->put_object_INIT( $obj, $fp );
-
-		return new CF_Async_Op( $cf_http, 'put_object_RETURN',
-			$cf_http->_send_request_HANDLE( $conn_type, $url_path, $hdrs )
-		);
-	}
-
-    private function put_object_INIT( CF_Object $obj, &$fp ) {
+    public function put_object( $async, CF_Object $obj, &$fp ) {
 		if ( !is_resource( $fp ) ) {
 			throw new SyntaxException( "File pointer argument is not a valid resource." );
 		}
@@ -828,19 +809,31 @@ class CF_Http {
 			$hdrs[] = "Content-Type: " . $obj->content_type;
 		}
 
-		$this->_init( $conn_type );
-		curl_setopt( $this->connections[$conn_type], CURLOPT_INFILE, $fp );
+		if ( $async === 'async' ) {
+			$cf_http = $this->forkClient(); // separate TCP connection & response holder
+		} else {
+			$cf_http = $this;
+		}
+
+		$cf_http->_init( $conn_type );
+		curl_setopt( $cf_http->connections[$conn_type], CURLOPT_INFILE, $fp );
 		if ( !$obj->content_length ) {
 			# We don''t know the Content-Length, so assumed "chunked" PUT
-			#
-            curl_setopt( $this->connections[$conn_type], CURLOPT_UPLOAD, True );
+            curl_setopt( $cf_http->connections[$conn_type], CURLOPT_UPLOAD, True );
 			$hdrs[] = 'Transfer-Encoding: chunked';
 		} else {
 			# We know the Content-Length, so use regular transfer
-			#
-            curl_setopt( $this->connections[$conn_type], CURLOPT_INFILESIZE, $obj->content_length );
+            curl_setopt( $cf_http->connections[$conn_type], CURLOPT_INFILESIZE, $obj->content_length );
 		}
-		return array( $conn_type, $url_path, $hdrs );
+
+		if ( $async === 'async' ) {
+			return new CF_Async_Op( $cf_http, 'put_object_RETURN',
+				$cf_http->_send_request_HANDLE( $conn_type, $url_path, $hdrs )
+			);
+		} else {
+			$return_code = $cf_http->_send_request( $conn_type, $url_path, $hdrs );
+			return $cf_http->put_object_RETURN( $return_code );
+		}
 	}
 
     /*private*/ function put_object_RETURN( $return_code ) {
@@ -932,36 +925,11 @@ class CF_Http {
 
 	#
     public function copy_object(
-		$src_obj_name, $dest_obj_name, $container_name_source, $container_name_target,
+		$async, $src_obj_name, $dest_obj_name, $container_name_source, $container_name_target,
 		$metadata = NULL, $headers = NULL
 	) {
-		list( $url_path, $hdrs, $conn_type ) = $this->copy_object_INIT(
-			$src_obj_name, $dest_obj_name, $container_name_source, $container_name_target,
-			$metadata, $headers );
-		$return_code = $this->_send_request( $conn_type, $url_path, $hdrs, "COPY" );
-		return $this->copy_object_RETURN( $return_code );
-	}
-
-	# COPY /v1/Account/Container/Object
-
-	#
-    public function copy_object_async(
-		$src_obj_name, $dest_obj_name,
-		$container_name_source, $container_name_target, $metadata = NULL, $headers = NULL
-	) {
-		$cf_http = $this->forkClient(); // separate TCP connection & response holder
-
-		list( $url_path, $hdrs, $conn_type ) = $cf_http->copy_object_INIT(
-			$src_obj_name, $dest_obj_name, $container_name_source, $container_name_target,
-			$metadata, $headers );
-
-		return new CF_Async_Op( $cf_http, 'copy_object_RETURN',
-			$cf_http->_send_request_HANDLE( $conn_type, $url_path, $hdrs, "COPY" )
-		);
-	}
-
-	private function copy_object_INIT( $src_obj_name, $dest_obj_name, $container_name_source, $container_name_target, $metadata = NULL, $headers = NULL ) {
-		if ( !$src_obj_name ) {
+		$src_obj_name = (string)$src_obj_name;
+		if ( $src_obj_name === "" ) {
 			$this->error_str = "Object name not set.";
 			return 0;
 		}
@@ -986,7 +954,15 @@ class CF_Http {
 		$hdrs = self::_process_headers( $metadata, $headers );
 		$hdrs[DESTINATION] = str_replace( "%2F", "/", rawurlencode( $destination ) );
 
-		return array( $url_path, $hdrs, $conn_type );
+		if ( $async === 'async' ) {
+			$cf_http = $this->forkClient(); // separate TCP connection & response holder
+			return new CF_Async_Op( $cf_http, 'copy_object_RETURN',
+				$cf_http->_send_request_HANDLE( $conn_type, $url_path, $hdrs, "COPY" )
+			);
+		} else {
+			$return_code = $this->_send_request( $conn_type, $url_path, $hdrs, "COPY" );
+			return $this->copy_object_RETURN( $return_code );
+		}
 	}
 
 	/*private*/ function copy_object_RETURN( $return_code ) {
@@ -1009,39 +985,30 @@ class CF_Http {
 	# DELETE /v1/Account/Container/Object
 
 	#
-    public function delete_object( $container_name, $object_name ) {
-		list( $url_path ) = $this->delete_object_INIT( $container_name, $object_name );
-		$return_code = $this->_send_request( "DEL_POST", $url_path, NULL, "DELETE" );
-		return $this->delete_object_RETURN( $return_code );
-	}
-
-	# DELETE /v1/Account/Container/Object
-
-	#
-    public function delete_object_async( $container_name, $object_name ) {
-		$cf_http = $this->forkClient(); // separate TCP connection & response holder
-
-		list( $url_path ) = $cf_http->delete_object_INIT( $container_name, $object_name );
-
-		return new CF_Async_Op( $cf_http, 'delete_object_RETURN',
-			$cf_http->_send_request_HANDLE( "DEL_POST", $url_path, NULL, "DELETE" )
-		);
-	}
-
-    private function delete_object_INIT( $container_name, $object_name ) {
+    public function delete_object( $async, $container_name, $object_name ) {
 		$container_name = (string)$container_name;
 		if ( $container_name === "" ) {
 			$this->error_str = "Container name not set.";
 			return 0;
 		}
 
-		if ( !$object_name ) {
+		$object_name = (string)$object_name;
+		if ( $object_name === "" ) {
 			$this->error_str = "Object name not set.";
 			return 0;
 		}
 
 		$url_path = $this->_make_path( "STORAGE", $container_name, $object_name );
-		return array( $url_path );
+
+		if ( $async === 'async' ) {
+			$cf_http = $this->forkClient(); // separate TCP connection & response holder
+			return new CF_Async_Op( $cf_http, 'delete_object_RETURN',
+				$cf_http->_send_request_HANDLE( "DEL_POST", $url_path, NULL, "DELETE" )
+			);
+		} else {
+			$return_code = $this->_send_request( "DEL_POST", $url_path, NULL, "DELETE" );
+			return $this->delete_object_RETURN( $return_code );
+		}
 	}
 
     /*private*/ function delete_object_RETURN( $return_code ) {
