@@ -1658,8 +1658,9 @@ class CF_Async_Op_Batch {
 
 	/**
 	 * Perform all of the HTTP requests for these operations.
-	 * This should not throw any exceptions.
-	 * @return Array The list of CF_Async_Op objects
+	 * This returns the CF_Async_Op objects, and getLastResponse() can be called on them.
+	 * Exceptions may thrown when that function is called if the operation failed.
+	 * @return Array The list of CF_Async_Op objects (keys and order preserved)
 	 */
 	public function execute() {
 		if ( !count( $this->requests ) ) {
