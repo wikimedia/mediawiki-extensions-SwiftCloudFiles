@@ -1698,7 +1698,7 @@ class CF_Async_Op_Batch {
 		if ( !count( $this->requests ) ) {
 			return $this->requests; // nothing to do
 		}
-		$multiHandle = curl_multi_init();
+		$multiHandle = CF_Curl_Multi::singleton()->getHandle();
 		for ( $stage=0; $stage < $this->steps; $stage++ ) {
 			// Add all of the required cURL handles...
 			foreach ( $this->requests as $request ) {
@@ -1733,15 +1733,45 @@ class CF_Async_Op_Batch {
 			foreach ( $this->requests as $request ) {
 				$handle = $request->getStepHandle( $stage );
 				if ( $handle && !$request->failed ) { // has step
-					$request->setStepResult( $stage ); // set error string/bit
 					curl_multi_remove_handle( $multiHandle, $handle );
+					$request->setStepResult( $stage ); // set error string/bit
 				}
 			}
 		}
-		curl_multi_close( $multiHandle );
 		foreach ( $this->requests as $request ) {
 			$request->state = CF_Async_Op::STATE_FINISHED;
 		}
 		return $this->requests;
+	}
+}
+
+class CF_Curl_Multi {
+	/** @var resource */
+	private $handle; // curl_multi handle
+
+	private function __construct() {
+		$this->handle = curl_multi_init();
+	}
+
+	/**
+	 * @return CF_Curl_Multi
+	 */
+	public static function singleton() {
+		static $instance = null;
+		if ( !$instance ) {
+			$instance = new self();
+		}
+		return $instance;
+	}
+
+	/**
+	 * @return resource Handle from curl_multi_init()
+	 */
+	public function getHandle() {
+		return $this->handle;
+	}
+
+	function __destruct() {
+		curl_multi_close( $this->handle );
 	}
 }
