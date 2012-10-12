@@ -2245,20 +2245,23 @@ class CF_Object {
 		$callback = function( $result, array $info ) use ( $fp, $close_fh, $verify ) {
 			$self = $info['this'];
 			list( $status, $reason, $etag ) = $result;
-			if ( $status == 412 ) {
+			if ( $status == 411 ) {
+				if ( $close_fh ) {
+					fclose( $fp );
+				}
+				throw new SyntaxException( "Missing Content-Length header" );
+			} elseif ( $status == 412 ) {
 				if ( $close_fh ) {
 					fclose( $fp );
 				}
 				throw new SyntaxException( "Missing Content-Type header" );
-			}
-			if ( $status == 422 ) {
+			} elseif ( $status == 422 ) {
 				if ( $close_fh ) {
 					fclose( $fp );
 				}
 				throw new MisMatchedChecksumException(
 					"Supplied and computed checksums do not match." );
-			}
-			if ( $status != 201 ) {
+			} elseif ( $status != 201 ) {
 				if ( $close_fh ) {
 					fclose( $fp );
 				}

@@ -1448,7 +1448,7 @@ class CF_Http {
 	}
 
 	private function _send_request_EXEC( $handle ) {
-		if ( !curl_exec( $handle ) ) {
+		if ( curl_exec( $handle ) === false ) {
 			$this->error_str = "(curl error: " . curl_errno( $handle ) . ") ";
 			$this->error_str .= curl_error( $handle );
 			return False;
