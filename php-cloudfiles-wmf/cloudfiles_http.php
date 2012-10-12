@@ -817,7 +817,7 @@ class CF_Http {
 
 		$cf_http->_init( $conn_type );
 		curl_setopt( $cf_http->connections[$conn_type], CURLOPT_INFILE, $fp );
-		if ( !$obj->content_length ) {
+		if ( $obj->content_length === null ) {
 			# We don''t know the Content-Length, so assumed "chunked" PUT
             curl_setopt( $cf_http->connections[$conn_type], CURLOPT_UPLOAD, True );
 			$hdrs[] = 'Transfer-Encoding: chunked';

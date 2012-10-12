@@ -1786,7 +1786,7 @@ class CF_Object {
 		$this->_etag_override = False;
 		$this->last_modified = NULL;
 		$this->content_type = NULL;
-		$this->content_length = 0;
+		$this->content_length = NULL;
 		$this->metadata = array( );
 		$this->headers = array( );
 		$this->manifest = NULL;
@@ -2228,7 +2228,7 @@ class CF_Object {
 			fwrite( $fp, $data, strlen( $data ) );
 			rewind( $fp );
 			$close_fh = True;
-			$this->content_length = (float) strlen( $data );
+			$this->content_length = (float)strlen( $data );
 			if ( $this->content_length > CF_Constants::MAX_OBJECT_SIZE ) {
 				throw new SyntaxException( "Data exceeds maximum object size" );
 			}
