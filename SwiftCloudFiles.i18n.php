@@ -22,6 +22,13 @@ $messages['qqq'] = array(
 	'swiftcloudfiles-desc' => 'A "[[:wikipedia:Front and back ends|backend]]" is a system or component that ordinary users don\'t interact with directly and don\'t need to know about, and that is responsible for a distinct task or service - for example, a storage back-end is a generic system for storing data which other applications can use. Possible alternatives for back-end are "system" or "service", or (depending on context and language) even leave it untranslated.',
 );
 
+/** Asturian (asturianu)
+ * @author Xuacu
+ */
+$messages['ast'] = array(
+	'swiftcloudfiles-desc' => "Inclúi y rexistra la [https://github.com/rackspace/php-cloudfiles  API ''php-cloudfiles''], permitiendo que MediaWiki interactúe con una infraestructura d'almacenamientu OpenStack Swift.",
+);
+
 /** Belarusian (Taraškievica orthography) (беларуская (тарашкевіца)‎)
  * @author Wizardist
  */
@@ -185,4 +192,3 @@ $messages['tl'] = array(
 $messages['vi'] = array(
 	'swiftcloudfiles-desc' => "Cài và đăng ký [https://github.com/rackspace/php-cloudfiles API ''php-cloudfiles''] cho phép MediaWiki tác động với phía sau lưu trữ OpenStack Swift.",
 );
-
