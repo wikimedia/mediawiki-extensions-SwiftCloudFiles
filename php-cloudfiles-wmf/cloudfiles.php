@@ -2428,6 +2428,31 @@ class CF_Object {
 	}
 
 	/**
+	 * Get the value for a given metadata key
+	 *
+	 * @param string Metadata key (case-insensitive)
+	 * @return string|null Metadata value or null if not defined
+	 */
+	public function getMetadataValue( $key ) {
+		# Match the casing per https://bugs.launchpad.net/swift/+bug/939982
+		$key = ucfirst( strtolower( $key ) );
+		return isset( $this->metadata[$key] ) ? $this->metadata[$key] : null;
+	}
+
+	/**
+	 * Set metadata key/value pairs, overriding any previous conflicting ones
+	 *
+	 * @param Array $pairs Map of key names (case-insensitive) to values
+	 * @return void
+	 */
+	public function setMetadataValues( array $pairs ) {
+		foreach ( $pairs as $key => $value ) {
+			# Match the casing per https://bugs.launchpad.net/swift/+bug/939982
+			$this->metadata[ucfirst( strtolower( $key ) )] = $value;
+		}
+	}
+
+	/**
 	 * Compute the MD5 checksum
 	 *
 	 * Calculate the MD5 checksum on either a PHP resource or data.  The argument
@@ -2478,7 +2503,7 @@ class CF_Object {
 		$this->last_modified = $last_modified;
 		$this->content_type = $content_type;
 		$this->content_length = $content_length;
-		$this->metadata = $metadata;
+		$this->setMetadataValues( $metadata );
 		$this->headers = $headers;
 		$this->manifest = $manifest;
 		return True;
