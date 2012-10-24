@@ -1154,11 +1154,17 @@ class CF_Http {
 				$this->_obj_headers[ORIGIN_HEADER] = $value;
 				break;
 			default:
-				if ( strncasecmp( $name, METADATA_HEADER_PREFIX, strlen( METADATA_HEADER_PREFIX ) ) == 0 ) {
+				if ( strncasecmp( $name,
+					METADATA_HEADER_PREFIX, strlen( METADATA_HEADER_PREFIX ) ) == 0
+				) {
 					$name = substr( $name, strlen( METADATA_HEADER_PREFIX ) );
 					$this->_obj_metadata[$name] = $value;
-				} elseif ( (strncasecmp( $name, CONTENT_HEADER_PREFIX, strlen( CONTENT_HEADER_PREFIX ) ) == 0) ||
-				(strncasecmp( $name, ACCESS_CONTROL_HEADER_PREFIX, strlen( ACCESS_CONTROL_HEADER_PREFIX ) ) == 0) ) {
+				} elseif (
+					strncasecmp( $name,
+						CONTENT_HEADER_PREFIX, strlen( CONTENT_HEADER_PREFIX ) ) == 0 ||
+					strncasecmp( $name,
+						ACCESS_CONTROL_HEADER_PREFIX, strlen( ACCESS_CONTROL_HEADER_PREFIX ) ) == 0
+				) {
 					$this->_obj_headers[$name] = $value;
 				}
 		}
