@@ -40,6 +40,7 @@ define( "CONTAINER_BYTES_USED", "X-Container-Bytes-Used" );
 define( "MANIFEST_HEADER", "X-Object-Manifest" );
 define( "METADATA_HEADER_PREFIX", "X-Object-Meta-" );
 define( "CONTENT_HEADER_PREFIX", "Content-" );
+define( "X_CONTENT_HEADER_PREFIX", "X-Content-" );
 define( "ACCESS_CONTROL_HEADER_PREFIX", "Access-Control-" );
 define( "ORIGIN_HEADER", "Origin" );
 define( "CDN_URI", "X-CDN-URI" );
@@ -1163,6 +1164,8 @@ class CF_Http {
 					strncasecmp( $name,
 						CONTENT_HEADER_PREFIX, strlen( CONTENT_HEADER_PREFIX ) ) == 0 ||
 					strncasecmp( $name,
+						X_CONTENT_HEADER_PREFIX, strlen( X_CONTENT_HEADER_PREFIX ) ) == 0 ||
+					strncasecmp( $name,
 						ACCESS_CONTROL_HEADER_PREFIX, strlen( ACCESS_CONTROL_HEADER_PREFIX ) ) == 0
 				) {
 					$this->_obj_headers[$name] = $value;
@@ -1367,6 +1370,7 @@ class CF_Http {
 			array(
 				'prefix' => '',
 				'filter' => array( # key order is important, first match decides
+					X_CONTENT_HEADER_PREFIX => true,
 					CONTENT_TYPE_HEADER => false,
 					CONTENT_LENGTH_HEADER => false,
 					CONTENT_HEADER_PREFIX => true,
