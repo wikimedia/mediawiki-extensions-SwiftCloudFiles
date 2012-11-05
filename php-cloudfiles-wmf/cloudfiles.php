@@ -2509,6 +2509,32 @@ class CF_Object {
 		return True;
 	}
 
+	/**
+	 * Generate a Temp Url for an object
+	 * Example:
+	 * <code>
+	 * # ... authentication code excluded (see previous examples) ...
+	 * $conn = new CF_Connection($auth);
+	 * $container = $conn->get_container("foo");
+	 * $obj = $container->get_object("foo");
+	 * $tempurl = $obj->get_temp_url("shared_secret", "expire_time_in_seconds", "HTTP_METHOD");
+	 * </code>
+	 * @param string $key Shared secret key for the account
+	 * @param integer $expires TTL in seconds
+	 * @param string $method Usually "HTTP_METHOD"
+	 * @returns The temp url
+	 */
+    public function get_temp_url( $key, $expires, $method ) {
+        $expires += time();
+        $url = $this->container->cfs_http->getStorageUrl() .
+			'/' . rawurlencode( $this->container->name ) .
+			# mimic Python''s urllib.quote() feature of a "safe" '/' character
+			'/' . str_replace( "%2F", "/", rawurlencode( $this->name ) );
+        return $url . '?temp_url_sig=' . hash_hmac( 'sha1', strtoupper( $method ) .
+			"\n" . $expires . "\n" . parse_url( $url, PHP_URL_PATH ), $key ) .
+			'&temp_url_expires=' . $expires;
+	}
+
 	private function _re_auth() {
 		$new_auth = new CF_Authentication(
 			$this->cfs_auth->username,

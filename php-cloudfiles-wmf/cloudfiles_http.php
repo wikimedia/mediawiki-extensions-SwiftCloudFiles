@@ -1348,7 +1348,6 @@ class CF_Http {
 		}
 		if ( $o ) {
 			# mimic Python''s urllib.quote() feature of a "safe" '/' character
-			#
             $path[] = str_replace( "%2F", "/", rawurlencode( $o ) );
 		}
 		return implode( "/", $path );
