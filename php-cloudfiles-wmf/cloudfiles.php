@@ -2517,11 +2517,11 @@ class CF_Object {
 	 * $conn = new CF_Connection($auth);
 	 * $container = $conn->get_container("foo");
 	 * $obj = $container->get_object("foo");
-	 * $tempurl = $obj->get_temp_url("shared_secret", "expire_time_in_seconds", "HTTP_METHOD");
+	 * $tempurl = $obj->get_temp_url("shared_secret", "expire_time_in_seconds", "GET");
 	 * </code>
 	 * @param string $key Shared secret key for the account
 	 * @param integer $expires TTL in seconds
-	 * @param string $method Usually "HTTP_METHOD"
+	 * @param string $method HTTP method (e.g. "GET")
 	 * @returns The temp url
 	 */
     public function get_temp_url( $key, $expires, $method ) {
