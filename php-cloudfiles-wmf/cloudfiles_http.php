@@ -981,7 +981,7 @@ class CF_Http {
 			default:
 				$this->error_str = "Unexpected HTTP return code: $return_code.";
 		}
-		return $return_code;
+		return array( $return_code, $this->response_reason );
 	}
 
 	# DELETE /v1/Account/Container/Object
@@ -1027,7 +1027,7 @@ class CF_Http {
 			default:
 				$this->error_str = "Unexpected HTTP return code: $return_code.";
 		}
-		return $return_code;
+		return array( $return_code, $this->response_reason );
 	}
 
 	public function get_error() {

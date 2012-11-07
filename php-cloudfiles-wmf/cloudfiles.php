@@ -422,7 +422,7 @@ class CF_Connection {
 		#}
 		if ( $status < 200 || $status > 299 ) {
 			throw new InvalidResponseException(
-				"Invalid response (" . $status . "): " . $this->cfs_http->get_error() );
+				"Invalid response (" . $status . "): " . $reason );
 		}
 		return array( $container_count, $total_bytes );
 	}
@@ -462,10 +462,6 @@ class CF_Connection {
 		}
 
 		$return_code = $this->cfs_http->create_container( $container_name );
-		if ( !$return_code ) {
-			throw new InvalidResponseException( "Invalid response ("
-				. $return_code . "): " . $this->cfs_http->get_error() );
-		}
 		#if ($status == 401 && $this->_re_auth()) {
 		#    return $this->create_container($container_name);
 		#}
@@ -504,9 +500,6 @@ class CF_Connection {
 			throw new SyntaxException( "Container name not set." );
 		}
 		$return_code = $this->cfs_http->delete_container( $container_name );
-		if ( !$return_code ) {
-			throw new InvalidResponseException( "Failed to obtain http response" );
-		}
 		#if ($status == 401 && $this->_re_auth()) {
 		#    return $this->delete_container($container);
 		#}
@@ -554,8 +547,7 @@ class CF_Connection {
 		if ( $status == 404 ) {
 			throw new NoSuchContainerException( "Container not found." );
 		} elseif ( $status < 200 || $status > 299 ) {
-			throw new InvalidResponseException(
-				"Invalid response: " . $this->cfs_http->get_error() );
+			throw new InvalidResponseException( "Invalid response (" . $status . "): " . $reason );
 		}
 		return new CF_Container(
 			$this->cfs_auth, $this->cfs_http, $container_name, $count, $bytes );
@@ -592,8 +584,7 @@ class CF_Connection {
 		#    return $this->get_containers();
 		#}
 		if ( $status < 200 || $status > 299 ) {
-			throw new InvalidResponseException(
-				"Invalid response: " . $this->cfs_http->get_error() );
+			throw new InvalidResponseException( "Invalid response (" . $status . "): " . $reason );
 		}
 		$containers = array( );
 		foreach ( $container_info as $name => $info ) {
@@ -636,7 +627,7 @@ class CF_Connection {
 		#}
 		if ( $status < 200 || $status > 299 ) {
 			throw new InvalidResponseException(
-				"Invalid response (" . $status . "): " . $this->cfs_http->get_error() );
+				"Invalid response (" . $status . "): " . $reason );
 		}
 		return $containers;
 	}
@@ -683,7 +674,7 @@ class CF_Connection {
 		#}
 		if ( $status < 200 || $status > 299 ) {
 			throw new InvalidResponseException(
-				"Invalid response (" . $status . "): " . $this->cfs_http->get_error() );
+				"Invalid response (" . $status . "): " . $reason );
 		}
 		return $container_info;
 	}
@@ -724,7 +715,7 @@ class CF_Connection {
 		#}
 		if ( $status < 200 || $status > 299 ) {
 			throw new InvalidResponseException(
-				"Invalid response (" . $status . "): " . $this->cfs_http->get_error() );
+				"Invalid response (" . $status . "): " . $reason );
 		}
 		return $containers;
 	}
@@ -1022,7 +1013,7 @@ class CF_Container {
 		#}
 		if ( !in_array( $status, array( 201, 202 ) ) ) {
 			throw new InvalidResponseException(
-				"Invalid response (" . $status . "): " . $this->cfs_http->get_error() );
+				"Invalid response (" . $status . "): " . $reason );
 		}
 		$this->cdn_enabled = True;
 		$this->cdn_ttl = $ttl;
@@ -1095,7 +1086,7 @@ class CF_Container {
 		);
 		if ( !in_array( $status, array( 202, 404 ) ) ) {
 			throw new InvalidResponseException(
-				"Invalid response (" . $status . "): " . $this->cfs_http->get_error() );
+				"Invalid response (" . $status . "): " . $reason );
 		}
 		$this->cdn_acl_user_agent = $cdn_acl_user_agent;
 		return True;
@@ -1132,7 +1123,7 @@ class CF_Container {
 		);
 		if ( !in_array( $status, array( 202, 404 ) ) ) {
 			throw new InvalidResponseException(
-				"Invalid response (" . $status . "): " . $this->cfs_http->get_error() );
+				"Invalid response (" . $status . "): " . $reason );
 		}
 		$this->cdn_acl_referrer = $cdn_acl_referrer;
 		return True;
@@ -1174,7 +1165,7 @@ class CF_Container {
 				$cdn_log_retention, $this->cdn_acl_user_agent, $this->cdn_acl_referrer );
 		if ( !in_array( $status, array( 202, 404 ) ) ) {
 			throw new InvalidResponseException(
-				"Invalid response (" . $status . "): " . $this->cfs_http->get_error() );
+				"Invalid response (" . $status . "): " . $reason );
 		}
 		$this->cdn_log_retention = $cdn_log_retention;
 		return True;
@@ -1221,7 +1212,7 @@ class CF_Container {
 		#}
 		if ( !in_array( $status, array( 202, 404 ) ) ) {
 			throw new InvalidResponseException(
-				"Invalid response (" . $status . "): " . $this->cfs_http->get_error() );
+				"Invalid response (" . $status . "): " . $reason );
 		}
 		$this->cdn_enabled = False;
 		$this->cdn_ttl = NULL;
@@ -1371,7 +1362,7 @@ class CF_Container {
 		#}
 		if ( $status < 200 || $status > 299 ) {
 			throw new InvalidResponseException(
-				"Invalid response (" . $status . "): " . $this->cfs_http->get_error() );
+				"Invalid response (" . $status . "): " . $reason );
 		}
 		return $obj_list;
 	}
@@ -1431,7 +1422,7 @@ class CF_Container {
 		#}
 		if ( $status < 200 || $status > 299 ) {
 			throw new InvalidResponseException(
-				"Invalid response (" . $status . "): " . $this->cfs_http->get_error() );
+				"Invalid response (" . $status . "): " . $reason );
 		}
 		$objects = array( );
 		foreach ( $obj_array as $obj ) {
@@ -1525,7 +1516,7 @@ class CF_Container {
 
 		$callback = function( $result, array $info ) use ( $obj_name, $dest_container_name ) {
 			$self = $info['this'];
-			$status = $result;
+			list( $status, $reason ) = $result;
 			if ( $status == 404 ) {
 				throw new NoSuchObjectException( "Specified object '" .
 					$self->name . "/" . $obj_name .
@@ -1533,7 +1524,7 @@ class CF_Container {
 					$dest_container_name . "' did not exist as target to copy to." );
 			} elseif ( $status < 200 || $status > 299 ) {
 				throw new InvalidResponseException(
-					"Invalid response (" . $status . "): " . $self->cfs_http->get_error() );
+					"Invalid response (" . $status . "): " . $reason );
 			}
 			return true;
 		};
@@ -1651,13 +1642,13 @@ class CF_Container {
 
 		$callback = function( $result, array $info ) use ( $obj_name ) {
 			$self = $info['this'];
-			$status = $result;
+			list( $status, $reason ) = $result;
 			if ( $status == 404 ) {
 				throw new NoSuchObjectException( "Specified object '" .
 					$self->name . "/" . $obj_name . "' did not exist to delete." );
 			} elseif ( $status != 204 ) {
 				throw new InvalidResponseException(
-					"Invalid response (" . $status . "): " . $self->cfs_http->get_error() );
+					"Invalid response (" . $status . "): " . $reason );
 			}
 			return True;
 		};
@@ -1713,8 +1704,7 @@ class CF_Container {
 		#    return $this->_cdn_initialize();
 		#}
 		if ( !in_array( $status, array( 204, 404 ) ) ) {
-			throw new InvalidResponseException(
-				"Invalid response (" . $status . "): " . $this->cfs_http->get_error() );
+			throw new InvalidResponseException( "Invalid response (" . $status . "): " . $reason );
 		}
 		$this->cdn_enabled = $cdn_enabled;
 		$this->cdn_streaming_uri = $cdn_streaming_uri;
@@ -1987,8 +1977,8 @@ class CF_Object {
 		if ( $status == 404 ) {
 			throw new NoSuchObjectException( "No such object '" . $this->name . "'" );
 		} elseif ( $status < 200 || ($status > 299 && $status != 412 && $status != 304) ) {
-			throw new InvalidResponseException( "Invalid response (" . $status . "): "
-				. $this->container->cfs_http->get_error() );
+			throw new InvalidResponseException(
+				"Invalid response (" . $status . "): " . $reason );
 		}
 		return $data;
 	}
@@ -2265,8 +2255,8 @@ class CF_Object {
 				if ( $close_fh ) {
 					fclose( $fp );
 				}
-				throw new InvalidResponseException( "Invalid response (" . $status . "): "
-					. $self->container->cfs_http->get_error() );
+				throw new InvalidResponseException(
+					"Invalid response (" . $status . "): " . $reason );
 			}
 			if ( !$verify ) {
 				$self->etag = $etag;
@@ -2496,8 +2486,8 @@ class CF_Object {
 		if ( $status == 404 ) {
 			return False;
 		} elseif ( $status < 200 || $status > 299 ) {
-			throw new InvalidResponseException( "Invalid response (" . $status . "): "
-				. $this->container->cfs_http->get_error() );
+			throw new InvalidResponseException(
+				"Invalid response (" . $status . "): " . $reason );
 		}
 		$this->etag = $etag;
 		$this->last_modified = $last_modified;
