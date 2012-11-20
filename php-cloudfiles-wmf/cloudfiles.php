@@ -2110,7 +2110,9 @@ class CF_Object {
 			#if ($status == 401 && $this->_re_auth()) {
 			#    return $this->sync_metadata();
 			#}
-			if ( $status != 202 ) {
+			if ( $status == 404 ) {
+				throw new NoSuchObjectException( "No such object '" . $this->name . "'" );
+			} elseif ( $status != 202 ) {
 				throw new InvalidResponseException( "Invalid response ("
 					. $status . "): " . $this->container->cfs_http->get_error() );
 			}
