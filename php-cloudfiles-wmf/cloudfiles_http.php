@@ -162,7 +162,7 @@ class CF_Http {
 		$this->_obj_content_length = NULL;
 		$this->_obj_metadata = array( );
 		$this->_obj_manifest = NULL;
-		$this->_obj_headers = NULL;
+		$this->_obj_headers = array( );
 		$this->_cdn_enabled = NULL;
 		$this->_cdn_ssl_uri = NULL;
 		$this->_cdn_streaming_uri = NULL;
@@ -1321,7 +1321,7 @@ class CF_Http {
 		$this->_obj_content_length = NULL;
 		$this->_obj_metadata = array( );
 		$this->_obj_manifest = NULL;
-		$this->_obj_headers = NULL;
+		$this->_obj_headers = array( );
 		$this->_obj_write_string = "";
 		$this->_cdn_streaming_uri = NULL;
 		$this->_cdn_enabled = NULL;
