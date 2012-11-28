@@ -225,7 +225,10 @@ class CF_Http {
 		curl_setopt( $curl_ch, CURLOPT_CONNECTTIMEOUT, 10 );
 		curl_setopt( $curl_ch, CURLOPT_TIMEOUT, 10 );
 		curl_setopt( $curl_ch, CURLOPT_URL, $url );
-		curl_exec( $curl_ch );
+		if ( curl_exec( $curl_ch ) === false ) {
+			$this->response_reason = "(curl error: " . curl_errno( $curl_ch ) . ") ";
+			$this->response_reason .= curl_error( $curl_ch );
+		}
 		curl_close( $curl_ch );
 
 		return array( $this->response_status, $this->response_reason,
