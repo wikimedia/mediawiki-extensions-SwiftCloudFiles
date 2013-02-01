@@ -179,6 +179,13 @@ $messages['pms'] = array(
 	'swiftcloudfiles-desc' => "A comprend e a registra l'[https://github.com/rackspace/php-cloudfiles API ëd ''php-coudfiles''], an përmëttend a MediaWiki d'antërfacesse con un terminal ëd memorisassion OpenStack Swift.",
 );
 
+/** tarandíne (tarandíne)
+ * @author Joetaras
+ */
+$messages['roa-tara'] = array(
+	'swiftcloudfiles-desc' => "'Nglude e reggistre le [https://github.com/rackspace/php-cloudfiles API ''php-cloudfiles''], permettenne a MediaUicchi de 'nderfaccià cu 'na memorie de masse OpenStack Swift sus a rrete.",
+);
+
 /** Swedish (svenska)
  * @author Ainali
  */
