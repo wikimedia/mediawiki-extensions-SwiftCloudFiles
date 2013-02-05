@@ -1,6 +1,6 @@
 <?php # -*- compile-command: (concat "phpunit " buffer-file-name) -*-
 
-if ( php_sapi_name() !== 'cli' ) {
+if ( PHP_SAPI !== 'cli' ) {
 	die( "This is not a valid web entry point." );
 }
 
