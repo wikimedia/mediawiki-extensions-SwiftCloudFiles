@@ -213,3 +213,10 @@ $messages['uk'] = array(
 $messages['vi'] = array(
 	'swiftcloudfiles-desc' => "Cài và đăng ký [https://github.com/rackspace/php-cloudfiles API ''php-cloudfiles''] cho phép MediaWiki tác động với phía sau lưu trữ OpenStack Swift.",
 );
+
+/** Simplified Chinese (中文（简体）‎)
+ * @author Hydra
+ */
+$messages['zh-hans'] = array(
+	'swiftcloudfiles-desc' => "包括与注册 [https://github.com/rackspace/php-cloudfiles ''php-cloudfiles''的API]，使 MediaWiki 能与 OpenStack Swift 存储联系和沟通。",
+);
