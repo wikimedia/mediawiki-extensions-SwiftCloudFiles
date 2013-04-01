@@ -959,6 +959,14 @@ class CF_Container {
 	}
 
 	/**
+	 * @param $cont CF_Container|string
+	 * @return bool Whether this is the same container as the given one
+	 */
+	public function equals( $cont ) {
+		return ( $this->name === self::get_container_name( $cont ) );
+	}
+
+	/**
 	 * Enable Container content to be served via CDN or modify CDN attributes
 	 *
 	 * Either enable this Container's content to be served via CDN or
@@ -1573,9 +1581,15 @@ class CF_Container {
 	public function move_object_to(
 		$obj, $container_target, $dest_obj_name = NULL, $metadata = NULL, $headers = NULL
 	) {
+		$src_obj_name = self::get_object_name( $obj );
+		$dest_obj_name = isset( $dest_obj_name ) ? $dest_obj_name : $src_obj_name;
 		$retVal = $this->copy_object_to(
 			$obj, $container_target, $dest_obj_name, $metadata, $headers );
-		return $retVal ? $this->delete_object( $obj, $this->name ) : False;
+		if ( $this->equals( $container_target ) && $src_obj_name === $dest_obj_name ) {
+			return $retVal; // nothing to delete
+		} else {
+			return $retVal ? $this->delete_object( $obj, $this->name ) : False;
+		}
 	}
 
 	/**
@@ -1585,9 +1599,16 @@ class CF_Container {
 	public function move_object_to_async(
 		$obj, $container_target, $dest_obj_name = NULL, $metadata = NULL, $headers = NULL
 	) {
-		return $this->copy_object_to_async(
-			$obj, $container_target, $dest_obj_name, $metadata, $headers
-		)->combine( $this->delete_object_async( $obj, $this->name ) );
+		$src_obj_name = self::get_object_name( $obj );
+		$dest_obj_name = isset( $dest_obj_name ) ? $dest_obj_name : $src_obj_name;
+		if ( $this->equals( $container_target ) && $src_obj_name === $dest_obj_name ) {
+			return $this->copy_object_to_async(
+				$obj, $container_target, $dest_obj_name, $metadata, $headers );
+		} else {
+			return $this->copy_object_to_async(
+				$obj, $container_target, $dest_obj_name, $metadata, $headers
+			)->combine( $this->delete_object_async( $obj, $this->name ) );
+		}
 	}
 
 	/**
