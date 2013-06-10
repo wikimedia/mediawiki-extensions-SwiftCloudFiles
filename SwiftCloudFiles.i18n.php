@@ -220,3 +220,10 @@ $messages['vi'] = array(
 $messages['zh-hans'] = array(
 	'swiftcloudfiles-desc' => "包括与注册 [https://github.com/rackspace/php-cloudfiles ''php-cloudfiles''的API]，使 MediaWiki 能与 OpenStack Swift 存储联系和沟通。",
 );
+
+/** Traditional Chinese (中文（繁體）‎)
+ * @author Justincheng12345
+ */
+$messages['zh-hant'] = array(
+	'swiftcloudfiles-desc' => "包含並注冊[https://github.com/rackspace/php-cloudfiles ''php-cloudfiles'' API]，以容許MediaWiki與OpenStack Swift後端介面溝通。",
+);
