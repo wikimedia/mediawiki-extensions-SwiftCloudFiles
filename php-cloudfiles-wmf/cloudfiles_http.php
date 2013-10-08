@@ -1692,25 +1692,17 @@ class CF_Async_Op_Batch {
 			}
 			// Execute the cURL handles concurrently...
 			$active = null; // handles still being processed
-			if ( substr( php_uname(), 0, 7 ) == 'Windows' ) {
-				do { // avoid curl_multi_select() per PHP bugs 61141 and 61240
-					$mrc = curl_multi_exec( $multiHandle, $active );
-					if ( $mrc != CURLM_CALL_MULTI_PERFORM ) {
-						usleep( 100 ); // .1ms
-					}
-				} while ( $mrc == CURLM_CALL_MULTI_PERFORM || ( $active && $mrc == CURLM_OK ) );
-			} else {
-				do { // start all the requests...
+			do {
+				// Do any available work...
+				do {
 					$mrc = curl_multi_exec( $multiHandle, $active );
 				} while ( $mrc == CURLM_CALL_MULTI_PERFORM );
-				while ( $active && $mrc == CURLM_OK ) {
-					if ( curl_multi_select( $multiHandle, 10 ) != -1 ) {
-						do { // keep working on this request...
-							$mrc = curl_multi_exec( $multiHandle, $active );
-						} while ( $mrc == CURLM_CALL_MULTI_PERFORM );
-					}
+				// Wait (if possible) for available work...
+				if ( curl_multi_select( $multiHandle, 10 ) == -1 ) {
+					// PHP bug 63411; http://curl.haxx.se/libcurl/c/curl_multi_fdset.html
+					usleep( 5000 ); // 5ms
 				}
-			}
+			} while ( $active > 0 && $mrc == CURLM_OK );
 			// Remove all of the added cURL handles and check for errors...
 			foreach ( $this->requests as $request ) {
 				$handle = $request->getStepHandle( $stage );
