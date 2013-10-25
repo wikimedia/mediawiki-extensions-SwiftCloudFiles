@@ -1687,6 +1687,8 @@ class CF_Async_Op_Batch {
 				$handle = $request->getStepHandle( $stage );
 				if ( $handle && !$request->failed ) { // has step
 					$request->state = CF_Async_Op::STATE_STARTED;
+					// https://github.com/guzzle/guzzle/issues/349
+					curl_setopt( $handle, CURLOPT_FORBID_REUSE, true );
 					curl_multi_add_handle( $multiHandle, $handle );
 				}
 			}
@@ -1698,9 +1700,11 @@ class CF_Async_Op_Batch {
 					$mrc = curl_multi_exec( $multiHandle, $active );
 				} while ( $mrc == CURLM_CALL_MULTI_PERFORM );
 				// Wait (if possible) for available work...
-				if ( curl_multi_select( $multiHandle, 10 ) == -1 ) {
-					// PHP bug 63411; http://curl.haxx.se/libcurl/c/curl_multi_fdset.html
-					usleep( 5000 ); // 5ms
+				if ( $active > 0 && $mrc == CURLM_OK ) {
+					if ( curl_multi_select( $multiHandle, 10 ) == -1 ) {
+						// PHP bug 63411; http://curl.haxx.se/libcurl/c/curl_multi_fdset.html
+						usleep( 5000 ); // 5ms
+					}
 				}
 			} while ( $active > 0 && $mrc == CURLM_OK );
 			// Remove all of the added cURL handles and check for errors...
