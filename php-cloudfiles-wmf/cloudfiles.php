@@ -1309,7 +1309,7 @@ class CF_Container {
 	 *
 	 * @param string $obj_name name of storage Object
 	 * @param array $hdrs user-defined headers (X-Newest: true, etc.)
-	 * @return obj CF_Object instance
+	 * @return CF_Object instance
 	 */
 	public function get_object( $obj_name = NULL, $hdrs = array( ) ) {
 		return new CF_Object( $this, $obj_name, True, True, $hdrs );
@@ -1466,7 +1466,7 @@ class CF_Container {
 	 * </code>
 	 *
 	 * @param obj $obj name or instance of Object to copy
-	 * @param obj $container_target name or instance of target Container
+	 * @param CF_Container $container_target name or instance of target Container
 	 * @param string $dest_obj_name name of target object (optional - uses source name if omitted)
 	 * @param array $metadata metadata array for new object (optional)
 	 * @param array $headers header fields array for the new object (optional)
@@ -1569,7 +1569,7 @@ class CF_Container {
 	 * </code>
 	 *
 	 * @param obj $obj name or instance of Object to move
-	 * @param obj $container_target name or instance of target Container
+	 * @param CF_Container $container_target name or instance of target Container
 	 * @param string $dest_obj_name name of target object (optional - uses source name if omitted)
 	 * @param array $metadata metadata array for new object (optional)
 	 * @param array $headers header fields array for the new object (optional)
