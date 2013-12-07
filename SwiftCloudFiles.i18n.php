@@ -36,7 +36,7 @@ $messages['be-tarask'] = array(
 	'swiftcloudfiles-desc' => "Уключае і рэгіструе [https://github.com/rackspace/php-cloudfiles API ''php-cloudfiles'' ], што дазваляе MediaWiki ўзаемадзейнічаць са сховішчам OpenStack Swift.",
 );
 
-/** Czech (česky)
+/** Czech (čeština)
  * @author Mormegil
  */
 $messages['cs'] = array(
@@ -126,7 +126,7 @@ $messages['ja'] = array(
  * @author 아라
  */
 $messages['ko'] = array(
-	'swiftcloudfiles-desc' => "[https://github.com/rackspace/php-cloudfiles ''php-cloudfiles'' API]를 포함 및 등록하고 OpenStack Swift 스토리지 백엔드로 미디어위키와 연동할 수 있습니다",
+	'swiftcloudfiles-desc' => "[https://github.com/rackspace/php-cloudfiles ''php-cloudfiles'' API]를 포함 및 등록하고 OpenStack Swift 저장소 백엔드로 미디어위키와 연동할 수 있습니다",
 );
 
 /** Colognian (Ripoarisch)
