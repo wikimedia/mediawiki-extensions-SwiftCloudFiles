@@ -1,0 +1,8 @@
+{
+    "@metadata": {
+        "authors": [
+            "Okras"
+        ]
+    },
+    "swiftcloudfiles-desc": "Подключает и регистрирует [https://github.com/rackspace/php-cloudfiles ''php-cloudfiles'' API], позволяя MediaWiki взаимодействовать с бэкендом хранилища OpenStack Swift."
+}

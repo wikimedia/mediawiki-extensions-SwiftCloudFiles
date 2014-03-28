@@ -1,0 +1,8 @@
+{
+    "@metadata": {
+        "authors": [
+            "Armando-Martin"
+        ]
+    },
+    "swiftcloudfiles-desc": "Incluye y registra la [https://github.com/rackspace/php-cloudfiles API ''php-cloudfiles''], permitiendo a MediaWiki interactuar con un servidor de almacenamiento de OpenStack Swift."
+}

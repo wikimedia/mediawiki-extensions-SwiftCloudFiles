@@ -1,0 +1,8 @@
+{
+    "@metadata": {
+        "authors": [
+            "아라"
+        ]
+    },
+    "swiftcloudfiles-desc": "[https://github.com/rackspace/php-cloudfiles ''php-cloudfiles'' API]를 포함 및 등록하고 OpenStack Swift 저장소 백엔드로 미디어위키와 연동할 수 있습니다"
+}

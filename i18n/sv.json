@@ -1,0 +1,8 @@
+{
+    "@metadata": {
+        "authors": [
+            "Ainali"
+        ]
+    },
+    "swiftcloudfiles-desc": "Inkluderar och registrerar [https://github.com/rackspace/php-cloudfiles ''php-cloudfiles'' API], så att MediaWiki kan kopplas moten OpenStack Swift lagringsbackend."
+}

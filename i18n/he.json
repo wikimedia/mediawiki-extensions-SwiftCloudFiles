@@ -1,0 +1,8 @@
+{
+    "@metadata": {
+        "authors": [
+            "Amire80"
+        ]
+    },
+    "swiftcloudfiles-desc": "הכללה ורישום של [https://github.com/rackspace/php-cloudfiles ה־API של ''php-cloudfiles''], המאפשר למדיה־ויקי להתממשק עם אחסון OpenStack Swift."
+}

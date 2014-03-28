@@ -1,0 +1,8 @@
+{
+    "@metadata": {
+        "authors": [
+            "Xuacu"
+        ]
+    },
+    "swiftcloudfiles-desc": "Inclúi y rexistra la [https://github.com/rackspace/php-cloudfiles  API ''php-cloudfiles''], permitiendo que MediaWiki interactúe con una infraestructura d'almacenamientu OpenStack Swift."
+}

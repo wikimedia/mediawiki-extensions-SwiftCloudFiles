@@ -1,0 +1,8 @@
+{
+    "@metadata": {
+        "authors": [
+            "BeginaFelicysym"
+        ]
+    },
+    "swiftcloudfiles-desc": "Dołącza i rejestruje [https://github.com/rackspace/php-cloudfiles API ''php-cloudfiles''], umożliwiając MediaWiki łączenie się z backendem OpenStack Swift."
+}

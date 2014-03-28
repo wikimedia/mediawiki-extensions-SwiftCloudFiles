@@ -1,0 +1,9 @@
+{
+    "@metadata": {
+        "authors": [
+            "DavidL",
+            "Gomoko"
+        ]
+    },
+    "swiftcloudfiles-desc": "Inclut et enregistre [https://github.com/rackspace/php-cloudfiles l'API ''php-cloudfiles''], permettant à MediaWiki de s'interfacer avec un terminal de stockage OpenStack Swift."
+}

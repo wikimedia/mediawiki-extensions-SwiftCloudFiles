@@ -1,0 +1,8 @@
+{
+    "@metadata": {
+        "authors": [
+            "Nike"
+        ]
+    },
+    "swiftcloudfiles-desc": "Sisällyttää ja rekisteröi [https://github.com/rackspace/php-cloudfiles ''php-cloudfiles'' APIn], jonka avulla MediaWiki voi keskustella OpenStack Swift-varastotaustaosan kanssa."
+}
