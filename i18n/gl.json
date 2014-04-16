@@ -1,8 +1,8 @@
 {
-    "@metadata": {
-        "authors": [
-            "Toliño"
-        ]
-    },
-    "swiftcloudfiles-desc": "Inclúe e rexistra a [https://github.com/rackspace/php-cloudfiles  API ''php-cloudfiles''], o que permite a MediaWiki interactuar cunha infraestrutura de almacenamento OpenStack Swift."
+	"@metadata": {
+		"authors": [
+			"Toliño"
+		]
+	},
+	"swiftcloudfiles-desc": "Inclúe e rexistra a [https://github.com/rackspace/php-cloudfiles  API ''php-cloudfiles''], o que permite a MediaWiki interactuar cunha infraestrutura de almacenamento OpenStack Swift."
 }

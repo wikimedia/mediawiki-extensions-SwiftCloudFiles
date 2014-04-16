@@ -1,8 +1,8 @@
 {
-    "@metadata": {
-        "authors": [
-            "McDutchie"
-        ]
-    },
-    "swiftcloudfiles-desc": "Include e registra le [https://github.com/rackspace/php-cloudfiles API ''php-cloudfiles''], permittente a MediaWiki de interager con un back-end de immagazinage OpenStack Swift."
+	"@metadata": {
+		"authors": [
+			"McDutchie"
+		]
+	},
+	"swiftcloudfiles-desc": "Include e registra le [https://github.com/rackspace/php-cloudfiles API ''php-cloudfiles''], permittente a MediaWiki de interager con un back-end de immagazinage OpenStack Swift."
 }

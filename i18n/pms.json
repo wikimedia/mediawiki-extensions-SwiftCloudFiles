@@ -1,9 +1,9 @@
 {
-    "@metadata": {
-        "authors": [
-            "Borichèt",
-            "Dragonòt"
-        ]
-    },
-    "swiftcloudfiles-desc": "A comprend e a registra l'[https://github.com/rackspace/php-cloudfiles API ëd ''php-coudfiles''], an përmëttend a MediaWiki d'antërfacesse con un terminal ëd memorisassion OpenStack Swift."
+	"@metadata": {
+		"authors": [
+			"Borichèt",
+			"Dragonòt"
+		]
+	},
+	"swiftcloudfiles-desc": "A comprend e a registra l'[https://github.com/rackspace/php-cloudfiles API ëd ''php-coudfiles''], an përmëttend a MediaWiki d'antërfacesse con un terminal ëd memorisassion OpenStack Swift."
 }

@@ -1,8 +1,8 @@
 {
-    "@metadata": {
-        "authors": [
-            "Hydra"
-        ]
-    },
-    "swiftcloudfiles-desc": "包括与注册 [https://github.com/rackspace/php-cloudfiles ''php-cloudfiles''的API]，使 MediaWiki 能与 OpenStack Swift 存储联系和沟通。"
+	"@metadata": {
+		"authors": [
+			"Hydra"
+		]
+	},
+	"swiftcloudfiles-desc": "包括与注册 [https://github.com/rackspace/php-cloudfiles ''php-cloudfiles''的API]，使 MediaWiki 能与 OpenStack Swift 存储联系和沟通。"
 }

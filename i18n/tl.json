@@ -1,8 +1,8 @@
 {
-    "@metadata": {
-        "authors": [
-            "AnakngAraw"
-        ]
-    },
-    "swiftcloudfiles-desc": "Nagsasama at nagrerehistro ng [https://github.com/rackspace/php-cloudfiles ''php-cloudfiles'' ng API], na nagpapahintulot sa MediaWiki na makipag-ugnayan ng mukha sa isang hulihang likuran ng imbakan ng OpenStack Swift."
+	"@metadata": {
+		"authors": [
+			"AnakngAraw"
+		]
+	},
+	"swiftcloudfiles-desc": "Nagsasama at nagrerehistro ng [https://github.com/rackspace/php-cloudfiles ''php-cloudfiles'' ng API], na nagpapahintulot sa MediaWiki na makipag-ugnayan ng mukha sa isang hulihang likuran ng imbakan ng OpenStack Swift."
 }

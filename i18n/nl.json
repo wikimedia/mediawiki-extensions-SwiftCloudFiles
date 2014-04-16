@@ -1,8 +1,8 @@
 {
-    "@metadata": {
-        "authors": [
-            "Siebrand"
-        ]
-    },
-    "swiftcloudfiles-desc": "Maakt de API voor ''[https://github.com/rackspace/php-cloudfiles php-cloudfiles]'' beschikbaar, zodat MediaWiki kan samenwerken met een OpenStack Swift opslagbackend"
+	"@metadata": {
+		"authors": [
+			"Siebrand"
+		]
+	},
+	"swiftcloudfiles-desc": "Maakt de API voor ''[https://github.com/rackspace/php-cloudfiles php-cloudfiles]'' beschikbaar, zodat MediaWiki kan samenwerken met een OpenStack Swift opslagbackend"
 }

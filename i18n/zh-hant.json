@@ -1,8 +1,8 @@
 {
-    "@metadata": {
-        "authors": [
-            "Justincheng12345"
-        ]
-    },
-    "swiftcloudfiles-desc": "包含並注冊[https://github.com/rackspace/php-cloudfiles ''php-cloudfiles'' API]，以容許MediaWiki與OpenStack Swift後端介面溝通。"
+	"@metadata": {
+		"authors": [
+			"Justincheng12345"
+		]
+	},
+	"swiftcloudfiles-desc": "包含並注冊[https://github.com/rackspace/php-cloudfiles ''php-cloudfiles'' API]，以容許MediaWiki與OpenStack Swift後端介面溝通。"
 }

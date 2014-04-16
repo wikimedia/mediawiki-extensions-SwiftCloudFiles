@@ -1,9 +1,9 @@
 {
-    "@metadata": {
-        "authors": [
-            "Kghbln",
-            "Metalhead64"
-        ]
-    },
-    "swiftcloudfiles-desc": "Ermöglicht die Verwendung der [https://github.com/rackspace/php-cloudfiles ''php-cloudfiles''-API], mit der MediaWiki als Interface für einen OpenStack-Swift-Speicher genutzt werden kann"
+	"@metadata": {
+		"authors": [
+			"Kghbln",
+			"Metalhead64"
+		]
+	},
+	"swiftcloudfiles-desc": "Ermöglicht die Verwendung der [https://github.com/rackspace/php-cloudfiles ''php-cloudfiles''-API], mit der MediaWiki als Interface für einen OpenStack-Swift-Speicher genutzt werden kann"
 }

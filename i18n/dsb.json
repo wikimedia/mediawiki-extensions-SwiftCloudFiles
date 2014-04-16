@@ -1,8 +1,8 @@
 {
-    "@metadata": {
-        "authors": [
-            "Michawiki"
-        ]
-    },
-    "swiftcloudfiles-desc": "Zmóžnja wužywanje [https://github.com/rackspace/php-cloudfiles ''php-cloudfiles'' API], z kótarymiž MediaWiki dajo se ako wužywarski powjerch za składowak OpenStack Swift."
+	"@metadata": {
+		"authors": [
+			"Michawiki"
+		]
+	},
+	"swiftcloudfiles-desc": "Zmóžnja wužywanje [https://github.com/rackspace/php-cloudfiles ''php-cloudfiles'' API], z kótarymiž MediaWiki dajo se ako wužywarski powjerch za składowak OpenStack Swift."
 }
