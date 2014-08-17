@@ -987,7 +987,7 @@ class CF_Container {
 	 * </code>
 	 *
 	 * @param int $ttl the time in seconds content will be cached in the CDN
-	 * @returns string the CDN enabled Container's URI
+	 * @return string the CDN enabled Container's URI
 	 * @throws CDNNotEnabledException CDN functionality not returned during auth
 	 * @throws AuthenticationException if auth token is not valid/expired
 	 * @throws InvalidResponseException unexpected response
@@ -1046,7 +1046,7 @@ class CF_Container {
 	 * $container->purge_from_cdn();
 	 * # or
 	 * $container->purge_from_cdn("user1@domain.com,user2@domain.com");
-	 * @returns boolean True if successful
+	 * @return boolean True if successful
 	 * @throws CDNNotEnabledException if CDN Is not enabled on this connection
 	 * @throws InvalidResponseException if the response expected is not returned
 	 */
@@ -1078,7 +1078,7 @@ class CF_Container {
 	 * $public_container->acl_referrer("Mozilla");
 	 * </code>
 	 *
-	 * @returns boolean True if successful
+	 * @return boolean True if successful
 	 * @throws CDNNotEnabledException CDN functionality not returned during auth
 	 * @throws AuthenticationException if auth token is not valid/expired
 	 * @throws InvalidResponseException unexpected response
@@ -1115,7 +1115,7 @@ class CF_Container {
 	 * $public_container->acl_referrer("http://www.example.com/gallery.php");
 	 * </code>
 	 *
-	 * @returns boolean True if successful
+	 * @return boolean True if successful
 	 * @throws CDNNotEnabledException CDN functionality not returned during auth
 	 * @throws AuthenticationException if auth token is not valid/expired
 	 * @throws InvalidResponseException unexpected response
@@ -1158,7 +1158,7 @@ class CF_Container {
 	 * $public_container->log_retention(True);
 	 * </code>
 	 *
-	 * @returns boolean True if successful
+	 * @return boolean True if successful
 	 * @throws CDNNotEnabledException CDN functionality not returned during auth
 	 * @throws AuthenticationException if auth token is not valid/expired
 	 * @throws InvalidResponseException unexpected response
@@ -1204,7 +1204,7 @@ class CF_Container {
 	 * $public_container->make_private();
 	 * </code>
 	 *
-	 * @returns boolean True if successful
+	 * @return boolean True if successful
 	 * @throws CDNNotEnabledException CDN functionality not returned during auth
 	 * @throws AuthenticationException if auth token is not valid/expired
 	 * @throws InvalidResponseException unexpected response
@@ -1252,7 +1252,7 @@ class CF_Container {
 	 * $public_container->is_public() ? print "Yes" : print "No";
 	 * </code>
 	 *
-	 * @returns boolean True if enabled, False otherwise
+	 * @return boolean True if enabled, False otherwise
 	 */
 	public function is_public() {
 		return $this->cdn_enabled == True ? True : False;
@@ -2397,7 +2397,7 @@ class CF_Object {
 	 * $obj->purge_from_cdn();
 	 * # or
 	 * $obj->purge_from_cdn("user1@domain.com,user2@domain.com");
-	 * @returns boolean True if successful
+	 * @return boolean True if successful
 	 * @throws CDNNotEnabledException if CDN Is not enabled on this connection
 	 * @throws InvalidResponseException if the response expected is not returned
 	 */
@@ -2535,7 +2535,7 @@ class CF_Object {
 	 * @param string $key Shared secret key for the account
 	 * @param integer $expires TTL in seconds
 	 * @param string $method HTTP method (e.g. "GET")
-	 * @returns The temp url
+	 * @return The temp url
 	 */
     public function get_temp_url( $key, $expires, $method ) {
         $expires += time();
