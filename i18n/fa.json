@@ -1,8 +1,9 @@
 {
 	"@metadata": {
 		"authors": [
-			"Armin1392"
+			"Armin1392",
+			"Huji"
 		]
 	},
-	"swiftcloudfiles-desc": "شامل شدن و ثبت‌نام کردن  [https://github.com/rackspace/php-cloudfiles ''php-cloudfiles'' API], اجازه مدیاویکی به رابط شدن با باطن ذخیره‌سازی سریع اُپن استک."
+	"swiftcloudfiles-desc": "شامل [https://github.com/rackspace/php-cloudfiles رابط برنامه‌نویسی ''php-cloudfiles''] است و آن را ثبت می‌کند، تا به مدیاویکی اجازه دهد که با یک پشتیبان ذخیره‌سازی مبتنی برای اوپن‌استک سویفت تعامل کند."
 }
