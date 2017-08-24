@@ -4,5 +4,5 @@
 			"Aaron Schulz"
 		]
 	},
-	"swiftcloudfiles-desc": "Includes and registers the [https://github.com/rackspace/php-cloudfiles ''php-cloudfiles'' API], allowing MediaWiki to interface with an OpenStack Swift storage backend."
+	"swiftcloudfiles-desc": "Includes and registers the [https://github.com/rackspace/php-cloudfiles ''php-cloudfiles'' API], allowing MediaWiki to interface with an OpenStack Swift storage backend"
 }
