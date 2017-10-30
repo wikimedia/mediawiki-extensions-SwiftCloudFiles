@@ -16,4 +16,3 @@ $wgAutoloadClasses['CF_Constants'] =
 	$wgAutoloadClasses['CF_Object'] = __DIR__ . '/php-cloudfiles-wmf/cloudfiles.php';
 
 $wgMessagesDirs['SwiftCloudFiles'] = __DIR__ . '/i18n';
-$wgExtensionMessagesFiles['SwiftCloudFiles'] = __DIR__ . '/SwiftCloudFiles.i18n.php';
