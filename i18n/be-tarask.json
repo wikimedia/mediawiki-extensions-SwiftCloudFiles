@@ -1,8 +1,0 @@
-{
-	"@metadata": {
-		"authors": [
-			"Wizardist"
-		]
-	},
-	"swiftcloudfiles-desc": "Уключае і рэгіструе [https://github.com/rackspace/php-cloudfiles API ''php-cloudfiles'' ], што дазваляе MediaWiki ўзаемадзейнічаць са сховішчам OpenStack Swift."
-}

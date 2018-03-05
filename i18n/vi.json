@@ -1,8 +1,0 @@
-{
-	"@metadata": {
-		"authors": [
-			"Minh Nguyen"
-		]
-	},
-	"swiftcloudfiles-desc": "Cài và đăng ký [https://github.com/rackspace/php-cloudfiles API ''php-cloudfiles''] cho phép MediaWiki tác động với phía sau lưu trữ OpenStack Swift."
-}

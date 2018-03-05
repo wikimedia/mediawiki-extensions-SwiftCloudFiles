@@ -1,8 +1,0 @@
-{
-	"@metadata": {
-		"authors": [
-			"Bjankuloski06"
-		]
-	},
-	"swiftcloudfiles-desc": "Го вклучува и регистрира [https://github.com/rackspace/php-cloudfiles ''php-cloudfiles'' API], овозможувајќи му на МедијаВики да се вклопи со складишната подлога OpenStack Swift."
-}

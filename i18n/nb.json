@@ -1,8 +1,0 @@
-{
-	"@metadata": {
-		"authors": [
-			"Jon Harald Søby"
-		]
-	},
-	"swiftcloudfiles-desc": "Inkluderer og registrerer [https://github.com/rackspace/php-cloudfiles «php-cloudfiles»-API-et] og lar MediaWiki virke sammen med et OpenStack Swift-lagringsbakstykke."
-}

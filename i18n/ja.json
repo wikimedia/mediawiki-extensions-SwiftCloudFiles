@@ -1,8 +1,0 @@
-{
-	"@metadata": {
-		"authors": [
-			"Shirayuki"
-		]
-	},
-	"swiftcloudfiles-desc": "[https://github.com/rackspace/php-cloudfiles ''php-cloudfiles'' API]を読み込んで登録し、MediaWiki が OpenStack Swift ストレージバックエンドと連動できるようにする。"
-}

@@ -1,8 +1,0 @@
-{
-	"@metadata": {
-		"authors": [
-			"Anakmalaysia"
-		]
-	},
-	"swiftcloudfiles-desc": "Menyertakan dan mendaftarkan [https://github.com/rackspace/php-cloudfiles API ''php-cloudfiles''], untuk membolehkan MediaWiki berantara muka dengan backend storan OpenStack Swift."
-}

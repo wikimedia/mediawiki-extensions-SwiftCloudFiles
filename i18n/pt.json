@@ -1,8 +1,0 @@
-{
-	"@metadata": {
-		"authors": [
-			"Hamilton Abreu"
-		]
-	},
-	"swiftcloudfiles-desc": "Inclui e regista a [https://github.com/rackspace/php-cloudfiles API ''php-cloudfiles''], que serve de interface entre o MediaWiki e um servidor de armazenamento OpenStack Swift."
-}

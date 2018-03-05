@@ -1,8 +1,0 @@
-{
-	"@metadata": {
-		"authors": [
-			"Mormegil"
-		]
-	},
-	"swiftcloudfiles-desc": "Zahrnuje a registruje [https://github.com/rackspace/php-cloudfiles API ''php-cloudfiles''], umožňující MediaWiki přístup ke koncovému úložnému systému OpenStack Swift."
-}
